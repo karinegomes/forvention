@@ -61,12 +61,12 @@
                                     <td>{{ $user->name }}</td>
                                     <td>{{ $user->email }}</td>
                                     <td>{{ $user->phone }}</td>
-                                    {{--<td>
+                                    <td>
                                         <div class="text-center">
-                                            <a href="{{ url('events/' . $event->id . '/edit') }}" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a>
-                                            <span class="btn btn-danger btn-xs delete-span" data-toggle="modal" data-target="#delete-modal-{{ $event->id }}"><i class="fa fa-trash-o"></i> Delete </span>
+                                            <a href="{{ url('users/' . $user->id . '/edit') }}" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a>
+                                            {{--<span class="btn btn-danger btn-xs delete-span" data-toggle="modal" data-target="#delete-modal-{{ $event->id }}"><i class="fa fa-trash-o"></i> Delete </span>--}}
                                         </div>
-                                        <div class="modal" tabindex="-1" role="dialog" aria-hidden="true" id="delete-modal-{{ $event->id }}">
+                                        {{--<div class="modal" tabindex="-1" role="dialog" aria-hidden="true" id="delete-modal-{{ $event->id }}">
                                             <div class="modal-dialog modal-sm">
                                                 <div class="modal-content">
 
@@ -90,8 +90,8 @@
 
                                                 </div>
                                             </div>
-                                        </div>
-                                    </td>--}}
+                                        </div>--}}
+                                    </td>
                                 </tr>
                             @endforeach
                             </tbody>

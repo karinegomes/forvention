@@ -55,7 +55,7 @@
             Super admin
         </label>
         <div class="col-md-6 col-sm-6 col-xs-12">
-            <input type="checkbox" id="super_admin" name="super_admin">
+            <input type="checkbox" id="super_admin" name="super_admin" {{ old('super_admin') == 'on' ? 'checked' : (isset($checked) ? $checked : '') }}>
         </div>
     </div>
 </div>

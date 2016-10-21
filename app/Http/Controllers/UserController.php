@@ -40,7 +40,13 @@ class UserController extends Controller {
 
     public function edit(User $user) {
 
-        return view('user.edit')->with('user', $user);
+        $checked = '';
+
+        if($user->mainRole && $user->mainRole->constant_name == 'SUPER_ADMIN') {
+            $checked = 'checked';
+        }
+
+        return view('user.edit')->with('user', $user)->with('checked', $checked);
 
     }
 
