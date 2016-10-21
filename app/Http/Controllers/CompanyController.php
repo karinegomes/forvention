@@ -135,6 +135,14 @@ class CompanyController extends Controller {
 
     }
 
+    public function viewUsers(Company $company) {
+
+        $users = $company->users;
+
+        return view('company.user.index')->with('company', $company)->with('users', $users);
+
+    }
+
     public function deleteUser(Company $company, User $user, Role $role) {
 
         try {

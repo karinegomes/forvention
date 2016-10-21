@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable
 {
@@ -53,6 +54,26 @@ class User extends Authenticatable
 
     public function mainRole() {
         return $this->belongsTo('App\Role', 'role_id');
+    }
+
+    public function companyUserDelete() {
+        DB::table('company_user')->where('user_id', $this->id)->delete();
+    }
+
+    public function eventUserDelete() {
+        DB::table('event_user')->where('user_id', $this->id)->delete();
+    }
+
+    public function favoriteCompaniesDelete() {
+        DB::table('favorite_companies')->where('user_id', $this->id)->delete();
+    }
+
+    public function favoriteFilesDelete() {
+        DB::table('favorite_files')->where('user_id', $this->id)->delete();
+    }
+
+    public function favoriteProductsDelete() {
+        DB::table('favorite_products')->where('user_id', $this->id)->delete();
     }
 
 }

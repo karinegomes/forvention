@@ -70,6 +70,24 @@ class UserController extends Controller {
 
     }
 
+    public function destroy(User $user) {
+
+        try {
+            $user->delete();
+        }
+        catch(Exception $e) {
+            $error = Config::get('constants.ERROR_MESSAGE');
+            //$error = $e->getMessage();
+
+            return redirect('users')->with('error', $error);
+        }
+
+        $message = 'User <strong>' . $user->name . '</strong> was successfully removed.';
+
+        return redirect('users')->with('message', $message);
+
+    }
+
     public function userAutocomplete(Request $request) {
 
         $term = $request['term'];

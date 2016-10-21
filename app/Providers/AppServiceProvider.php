@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Company;
 use App\CompanyMedia;
+use App\User;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,6 +24,14 @@ class AppServiceProvider extends ServiceProvider
             $company->companyEventDelete();
             $company->companyUserDelete();
             $company->medias()->delete();
+        });
+
+        User::deleting(function(User $user) {
+            $user->companyUserDelete();
+            $user->eventUserDelete();
+            $user->favoriteCompaniesDelete();
+            $user->favoriteFilesDelete();
+            $user->favoriteProductsDelete();
         });
     }
 
