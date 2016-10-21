@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Event extends Model {
 
@@ -14,6 +15,14 @@ class Event extends Model {
 
     public function users() {
         return $this->belongsToMany('App\User');
+    }
+
+    public function companyEventDelete() {
+        DB::table('company_event')->where('event_id', $this->id)->delete();
+    }
+
+    public function eventUserDelete() {
+        DB::table('event_user')->where('event_id', $this->id)->delete();
     }
 
 }
