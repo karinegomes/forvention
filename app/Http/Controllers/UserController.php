@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Role;
 use App\User;
 use Exception;
 use Illuminate\Http\Request;
@@ -10,6 +11,32 @@ use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\Config;
 
 class UserController extends Controller {
+
+    public function index() {
+
+        $users = User::all();
+
+        return view('user.index')->with('users', $users);
+
+    }
+
+    public function create() {
+        return view('user.create');
+    }
+
+    public function store(UserRequest $request) {
+
+        if($request['super_admin'] == 'on') {
+            $request['role_id'] = Role::where('constant_name', 'SUPER_ADMIN')->first()->id;
+        }
+
+        User::create($request->except('_token', 'edit'));
+
+        $message = 'User <strong>' . $request->name . '</strong> was successfully created.';
+
+        return redirect('users')->with('message', $message);
+
+    }
 
     public function edit(User $user) {
 

@@ -15,7 +15,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'phone', 'password',
+        'name', 'email', 'phone', 'password', 'role_id',
     ];
 
     /**
@@ -49,6 +49,10 @@ class User extends Authenticatable
 
     public function role($columnName, $key, $roles) {
         return $roles->where($columnName, $key)->first();
+    }
+
+    public function mainRole() {
+        return $this->belongsTo('App\Role', 'role_id');
     }
 
 }

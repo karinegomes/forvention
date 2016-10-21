@@ -23,13 +23,20 @@ class UserRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+        $rules = [
             'name' => 'required',
             'email' => 'required|email',
             'phone' => 'required',
             'password' => 'confirmed',
             'password_confirmation' => 'same:password'
         ];
+
+        if(!$this->has('edit')) {
+            $rules['password'] = $rules['password'] . '|required';
+            $rules['password_confirmation'] = 'required';
+        }
+
+        return $rules;
 
     }
 }

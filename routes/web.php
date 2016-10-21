@@ -11,37 +11,39 @@
 |
 */
 
-Route::group(['middleware' => ['web']], function () {
-    Auth::routes();
+Auth::routes();
 
-    $this->group(['middleware' => ['auth']], function() {
-        $this->get('/', function () {
-            return view('index');
-        });
+$this->group(['middleware' => ['auth']], function() {
+    $this->get('/', function () {
+        return view('index');
+    });
 
-        // Companies
-        $this->resource('companies', 'CompanyController');
-        $this->get('companies/{company}/add-user', 'CompanyController@addUserView');
-        $this->post('companies/{company}/add-user', 'CompanyController@addUser');
-        $this->get('companies/{company}/users', 'CompanyController@viewUsers');
-        $this->delete('companies/{company}/user/{user}/role/{role}/delete', 'CompanyController@deleteUser');
+    // Companies
+    $this->resource('companies', 'CompanyController');
+    $this->get('companies/{company}/add-user', 'CompanyController@addUserView');
+    $this->post('companies/{company}/add-user', 'CompanyController@addUser');
+    $this->get('companies/{company}/users', 'CompanyController@viewUsers');
+    $this->delete('companies/{company}/user/{user}/role/{role}/delete', 'CompanyController@deleteUser');
 
-        // Events
-        $this->resource('events', 'EventController');
-        $this->get('events/{event}/add-user', 'EventController@addUserView');
-        $this->post('events/{event}/add-user', 'EventController@addUser');
-        $this->get('events/{event}/users', 'EventController@viewUsers');
-        $this->delete('events/{event}/user/{user}/role/{role}/delete', 'EventController@deleteUser');
-        $this->get('events/{event}/add-company', 'EventController@addCompanyView');
-        $this->post('events/{event}/add-company', 'EventController@addCompany');
-        $this->get('events/{event}/companies', 'EventController@viewCompanies');
-        $this->delete('events/{event}/company/{company}/delete', 'EventController@deleteCompany');
+    // Events
+    $this->resource('events', 'EventController');
+    $this->get('events/{event}/add-user', 'EventController@addUserView');
+    $this->post('events/{event}/add-user', 'EventController@addUser');
+    $this->get('events/{event}/users', 'EventController@viewUsers');
+    $this->delete('events/{event}/user/{user}/role/{role}/delete', 'EventController@deleteUser');
+    $this->get('events/{event}/add-company', 'EventController@addCompanyView');
+    $this->post('events/{event}/add-company', 'EventController@addCompany');
+    $this->get('events/{event}/companies', 'EventController@viewCompanies');
+    $this->delete('events/{event}/company/{company}/delete', 'EventController@deleteCompany');
 
-        // Users
-        $this->resource('users', 'UserController');
+    // Users
+    $this->resource('users', 'UserController');
 
-        // Ajax
-        $this->get('user-autocomplete', 'UserController@userAutocomplete');
+    // Ajax
+    $this->get('user-autocomplete', 'UserController@userAutocomplete');
+
+    $this->get('test', function() {
+        var_dump(Auth::user()->mainRole ? Auth::user()->mainRole->constant_name : 'null');
     });
 });
 
