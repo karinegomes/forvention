@@ -42,3 +42,6 @@ Route::resource('users', 'UserController');
 
 // Ajax
 Route::get('user-autocomplete', 'UserController@userAutocomplete');
+Auth::routes();
+
+Route::get('/home', 'HomeController@index');
