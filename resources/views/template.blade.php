@@ -76,7 +76,7 @@
                                 <a><i class="fa fa-calendar"></i> Events <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     <li><a href={{ url('events/create') }}>Add Event</a></li>
-                                    <li><a href="{{ url('') }}">View Events</a></li>
+                                    <li><a href="{{ url('events') }}">View Events</a></li>
                                 </ul>
                             </li>
                         </ul>

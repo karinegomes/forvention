@@ -53,12 +53,34 @@ class EventController extends Controller {
 
     public function edit(Event $event) {
 
+        $date = new DateTime($event->date);
+        $event->date = $date->format('Y/m/d');
+
         return view('event.edit')->with('event', $event);
 
     }
 
-    public function update(Request $request, $id) {
-        //
+    public function update(EventRequest $request, Event $event) {
+
+        $start = new DateTime($request['start']);
+        $end = new DateTime($request['end']);
+
+        $request['start'] = $start->format('H:i');
+        $request['end'] = $end->format('H:i');
+
+        try {
+            $event->update($request->except('_token', 'edit'));
+        }
+        catch(Exception $e) {
+            $error = Config::get('constants.ERROR_MESSAGE');
+
+            return back()->withInput($request->except('_token'))->with('error', $error);
+        }
+
+        $message = 'Event <strong>' . $event->title . '</strong> was successfully updated.';
+
+        return redirect('events')->with('message', $message);
+
     }
 
     public function destroy($id) {
