@@ -64,9 +64,9 @@
                                     <td>
                                         <div class="text-center">
                                             <a href="{{ url('events/' . $event->id . '/edit') }}" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a>
-                                            {{--<span class="btn btn-danger btn-xs delete-span" data-toggle="modal" data-target="#delete-modal-{{ $company->id }}"><i class="fa fa-trash-o"></i> Delete </span>--}}
+                                            <span class="btn btn-danger btn-xs delete-span" data-toggle="modal" data-target="#delete-modal-{{ $event->id }}"><i class="fa fa-trash-o"></i> Delete </span>
                                         </div>
-                                        {{--<div class="modal" tabindex="-1" role="dialog" aria-hidden="true" id="delete-modal-{{ $company->id }}">
+                                        <div class="modal" tabindex="-1" role="dialog" aria-hidden="true" id="delete-modal-{{ $event->id }}">
                                             <div class="modal-dialog modal-sm">
                                                 <div class="modal-content">
 
@@ -76,12 +76,12 @@
                                                         <h4 class="modal-title" id="myModalLabel2">Delete confirmation</h4>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <h4>Delete {{ $company->name }}</h4>
-                                                        <p>Are you sure you want to delete company {{ $company->name }}?</p>
+                                                        <h4>Delete {{ $event->title }}</h4>
+                                                        <p>Are you sure you want to delete the event {{ $event->title }}?</p>
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                                                        <form action="{{ url('companies/' . $company->id) }}" method="POST" class="delete-form">
+                                                        <form action="{{ url('events/' . $event->id) }}" method="POST" class="delete-form">
                                                             {{ csrf_field() }}
                                                             {{ method_field('DELETE') }}
                                                             <button type="submit" class="btn btn-danger">Delete</button>
@@ -90,7 +90,7 @@
 
                                                 </div>
                                             </div>
-                                        </div>--}}
+                                        </div>
                                     </td>
                                 </tr>
                             @endforeach

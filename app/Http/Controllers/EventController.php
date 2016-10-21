@@ -83,8 +83,22 @@ class EventController extends Controller {
 
     }
 
-    public function destroy($id) {
-        //
+    public function destroy(Event $event) {
+
+        try {
+            $event->delete();
+        }
+        catch(Exception $e) {
+            $error = Config::get('constants.ERROR_MESSAGE');
+            //$error = $e->getMessage();
+
+            return redirect('events')->with('error', $error);
+        }
+
+        $message = 'Event <strong>' . $event->title . '</strong> was successfully removed.';
+
+        return redirect('events')->with('message', $message);
+
     }
 
 }
