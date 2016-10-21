@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Company;
 use App\Event;
 use App\Http\Requests\AddUserRequest;
 use App\Role;
@@ -174,6 +175,78 @@ class EventController extends Controller {
         }
 
         $message = 'User ' . $user->name . ' was successfully removed from the event ' . $event->title . '.';
+
+        return back()->with('message', $message);
+
+    }
+
+    public function addCompanyView(Event $event) {
+
+        /*SELECT DISTINCT * FROM companies
+        WHERE NOT EXISTS (SELECT * FROM company_event
+                          WHERE companies.id = company_event.company_id
+                          AND company_event.event_id = 3)*/
+
+        $companies = Company::whereNotExists(function($query) use ($event){
+            $query->select('company_id')
+                ->from('company_event')
+                ->whereRaw('companies.id = company_event.company_id')
+                ->whereRaw('company_event.event_id = ?', [$event->id]);
+        })->get();
+
+        return view('event.company.add')->with('event', $event)->with('companies', $companies);
+
+    }
+
+    public function addCompany(Request $request, Event $event) {
+
+        $companiesIds = $request['company'];
+
+        try {
+            foreach($companiesIds as $companyId) {
+                DB::table('company_event')->insert([
+                    'event_id' => $event->id,
+                    'company_id' => $companyId,
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'updated_at' => date('Y-m-d H:i:s')
+                ]);
+            }
+        }
+        catch(Exception $e) {
+            $error = Config::get('constants.ERROR_MESSAGE');
+
+            return back()->with('error', $error);
+        }
+
+        $message = 'The companies were successfully added to the event ' . $event->title . '.';
+
+        return redirect('events')->with('message', $message);
+
+    }
+
+    public function viewCompanies(Event $event) {
+
+        $companies = $event->companies;
+
+        return view('event.company.index')->with('event', $event)->with('companies', $companies);
+
+    }
+
+    public function deleteCompany(Event $event, Company $company) {
+
+        try {
+            DB::table('company_event')
+                ->where('event_id', $event->id)
+                ->where('company_id', $company->id)
+                ->delete();
+        }
+        catch(Exception $e) {
+            $error = Config::get('constants.ERROR_MESSAGE');
+
+            return back()->with('error', $error);
+        }
+
+        $message = 'Company ' . $company->name . ' was successfully removed from the event ' . $event->title . '.';
 
         return back()->with('message', $message);
 

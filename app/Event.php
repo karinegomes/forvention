@@ -9,7 +9,7 @@ class Event extends Model {
     protected $guarded = ['id'];
 
     public function companies() {
-        return $this->belongsToMany('App\Company')->withPivot('role_id');
+        return $this->belongsToMany('App\Company');
     }
 
     public function users() {

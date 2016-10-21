@@ -15,8 +15,6 @@
     <link href="{{ asset('vendors/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
     <!-- NProgress -->
     <link href="{{ asset('vendors/nprogress/nprogress.css') }}" rel="stylesheet">
-    <!-- iCheck -->
-    <link href="{{ asset('vendors/iCheck/skins/flat/green.css') }}" rel="stylesheet">
     <!-- bootstrap-progressbar -->
     <link href="{{ asset('vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css') }}" rel="stylesheet">
     <!-- JQVMap -->
@@ -212,8 +210,6 @@
 <script src="{{ asset('vendors/gauge.js/dist/gauge.min.js') }}"></script>
 <!-- bootstrap-progressbar -->
 <script src="{{ asset('vendors/bootstrap-progressbar/bootstrap-progressbar.min.js') }}"></script>
-<!-- iCheck -->
-<script src="{{ asset('vendors/iCheck/icheck.min.js') }}"></script>
 <!-- Skycons -->
 <script src="{{ asset('vendors/skycons/skycons.js') }}"></script>
 <!-- Flot -->

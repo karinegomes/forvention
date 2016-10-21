@@ -32,6 +32,10 @@ Route::get('events/{event}/add-user', 'EventController@addUserView');
 Route::post('events/{event}/add-user', 'EventController@addUser');
 Route::get('events/{event}/users', 'EventController@viewUsers');
 Route::delete('events/{event}/user/{user}/role/{role}/delete', 'EventController@deleteUser');
+Route::get('events/{event}/add-company', 'EventController@addCompanyView');
+Route::post('events/{event}/add-company', 'EventController@addCompany');
+Route::get('events/{event}/companies', 'EventController@viewCompanies');
+Route::delete('events/{event}/company/{company}/delete', 'EventController@deleteCompany');
 
 // Users
 Route::resource('users', 'UserController');
