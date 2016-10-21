@@ -22,7 +22,7 @@
 
                 <div class="separator">
                     <p class="change_link">New to site?
-                        <a href="{{ url('login') }}"> Create Account </a>
+                        <a href="{{ url('register') }}"> Create Account </a>
                     </p>
 
                     <div class="clearfix"></div>

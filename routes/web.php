@@ -11,37 +11,38 @@
 |
 */
 
-Route::get('/', function () {
-    return view('index');
+Route::group(['middleware' => ['web']], function () {
+    Auth::routes();
+
+    $this->group(['middleware' => ['auth']], function() {
+        $this->get('/', function () {
+            return view('index');
+        });
+
+        // Companies
+        $this->resource('companies', 'CompanyController');
+        $this->get('companies/{company}/add-user', 'CompanyController@addUserView');
+        $this->post('companies/{company}/add-user', 'CompanyController@addUser');
+        $this->get('companies/{company}/users', 'CompanyController@viewUsers');
+        $this->delete('companies/{company}/user/{user}/role/{role}/delete', 'CompanyController@deleteUser');
+
+        // Events
+        $this->resource('events', 'EventController');
+        $this->get('events/{event}/add-user', 'EventController@addUserView');
+        $this->post('events/{event}/add-user', 'EventController@addUser');
+        $this->get('events/{event}/users', 'EventController@viewUsers');
+        $this->delete('events/{event}/user/{user}/role/{role}/delete', 'EventController@deleteUser');
+        $this->get('events/{event}/add-company', 'EventController@addCompanyView');
+        $this->post('events/{event}/add-company', 'EventController@addCompany');
+        $this->get('events/{event}/companies', 'EventController@viewCompanies');
+        $this->delete('events/{event}/company/{company}/delete', 'EventController@deleteCompany');
+
+        // Users
+        $this->resource('users', 'UserController');
+
+        // Ajax
+        $this->get('user-autocomplete', 'UserController@userAutocomplete');
+    });
 });
-
-Route::get('test', function () {
-    return view('index2');
-});
-
-// Companies
-Route::resource('companies', 'CompanyController');
-Route::get('companies/{company}/add-user', 'CompanyController@addUserView');
-Route::post('companies/{company}/add-user', 'CompanyController@addUser');
-Route::get('companies/{company}/users', 'CompanyController@viewUsers');
-Route::delete('companies/{company}/user/{user}/role/{role}/delete', 'CompanyController@deleteUser');
-
-// Events
-Route::resource('events', 'EventController');
-Route::get('events/{event}/add-user', 'EventController@addUserView');
-Route::post('events/{event}/add-user', 'EventController@addUser');
-Route::get('events/{event}/users', 'EventController@viewUsers');
-Route::delete('events/{event}/user/{user}/role/{role}/delete', 'EventController@deleteUser');
-Route::get('events/{event}/add-company', 'EventController@addCompanyView');
-Route::post('events/{event}/add-company', 'EventController@addCompany');
-Route::get('events/{event}/companies', 'EventController@viewCompanies');
-Route::delete('events/{event}/company/{company}/delete', 'EventController@deleteCompany');
-
-// Users
-Route::resource('users', 'UserController');
-
-// Ajax
-Route::get('user-autocomplete', 'UserController@userAutocomplete');
-Auth::routes();
 
 Route::get('/home', 'HomeController@index');
