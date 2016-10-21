@@ -6,6 +6,9 @@
             <form action="{{ url('register') }}" method="POST">
                 {{ csrf_field() }}
                 <h1>Create Account</h1>
+                <div class="text-left">
+                    @include('include.error')
+                </div>
                 <div>
                     <input type="text" class="form-control" placeholder="Name" name="name" required="" />
                 </div>

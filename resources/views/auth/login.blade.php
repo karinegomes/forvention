@@ -11,10 +11,10 @@
                     @include('include.error')
                 </div>
                 <div>
-                    <input type="text" class="form-control" name="email" placeholder="Email" {{--required=""--}} />
+                    <input type="text" class="form-control" name="email" placeholder="Email" required="" />
                 </div>
                 <div>
-                    <input type="password" class="form-control" name="password" placeholder="Password" {{--required=""--}} />
+                    <input type="password" class="form-control" name="password" placeholder="Password" required="" />
                 </div>
                 <div>
                     <button class="btn btn-default submit" type="submit">Log in</button>
