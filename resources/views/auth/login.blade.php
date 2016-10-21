@@ -7,11 +7,14 @@
                 {{ csrf_field() }}
 
                 <h1>Login</h1>
-                <div>
-                    <input type="text" class="form-control" name="email" placeholder="Email" required="" />
+                <div class="text-left">
+                    @include('include.error')
                 </div>
                 <div>
-                    <input type="password" class="form-control" name="password" placeholder="Password" required="" />
+                    <input type="text" class="form-control" name="email" placeholder="Email" {{--required=""--}} />
+                </div>
+                <div>
+                    <input type="password" class="form-control" name="password" placeholder="Password" {{--required=""--}} />
                 </div>
                 <div>
                     <button class="btn btn-default submit" type="submit">Log in</button>
