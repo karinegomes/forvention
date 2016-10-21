@@ -12,8 +12,8 @@ class Event extends Model {
         return $this->belongsToMany('App\Company')->withPivot('role_id');
     }
 
-    public function user() {
-        return $this->belongsToMany('App\User')->withPivot('role_id');
+    public function users() {
+        return $this->belongsToMany('App\User');
     }
 
 }

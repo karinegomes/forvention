@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Company;
 use App\CompanyMedia;
-use App\Http\Requests\AddUserCompanyRequest;
+use App\Http\Requests\AddUserRequest;
 use App\Role;
 use App\User;
 use Exception;
@@ -99,7 +99,7 @@ class CompanyController extends Controller {
 
     }
 
-    public function addUser(Company $company, AddUserCompanyRequest $request) {
+    public function addUser(Company $company, AddUserRequest $request) {
 
         $companyId = $company->id;
         $userId = User::where('email', $request['email'])->first()->id;

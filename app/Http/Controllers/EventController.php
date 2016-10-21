@@ -3,12 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Event;
+use App\Http\Requests\AddUserRequest;
+use App\Role;
+use App\User;
 use Exception;
 use DateTime;
 use Illuminate\Http\Request;
 
 use App\Http\Requests\EventRequest;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\DB;
 
 class EventController extends Controller {
 
@@ -98,6 +102,59 @@ class EventController extends Controller {
         $message = 'Event <strong>' . $event->title . '</strong> was successfully removed.';
 
         return redirect('events')->with('message', $message);
+
+    }
+
+    public function addUserView(Event $event) {
+
+        //$roles = Role::all();
+        $roles = Role::where('constant_name', 'VISITOR')->get();
+
+        return view('event.user.add')->with('event', $event)->with('roles', $roles);
+
+    }
+
+    public function addUser(Event $event, AddUserRequest $request) {
+
+        $eventId = $event->id;
+        $userId = User::where('email', $request['email'])->first()->id;
+        $roleId = $request['role'];
+
+        $exists = DB::table('event_user')->where('user_id', $userId)->where('event_id', $eventId)
+            ->where('role_id', $roleId)->exists();
+
+        if($exists) {
+            $error = 'The email ' . $request['email'] . ' was already added to ' . $event->title . ' for the selected
+                role.';
+
+            return back()->withInput($request->except('_token', 'role'))->with('error', $error);
+        }
+
+        try {
+            DB::table('event_user')->insert([
+                'user_id' => $userId,
+                'event_id' => $eventId,
+                'role_id' => $roleId
+            ]);
+        }
+        catch(Exception $e) {
+            //$error = Config::get('constants.ERROR_MESSAGE');
+            $error = $e->getMessage();
+
+            return back()->withInput($request->except('_token'))->with('error', $error);
+        }
+
+        $message = 'The user was successfully added to ' . $event->title . '.';
+
+        return redirect('events')->with('message', $message);
+
+    }
+
+    public function viewUsers(Event $event) {
+
+        $users = $event->users;
+
+        return view('event.user.index')->with('event', $event)->with('users', $users);
 
     }
 

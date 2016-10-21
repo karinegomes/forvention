@@ -28,6 +28,9 @@ Route::delete('companies/{company}/user/{user}/role/{role}/delete', 'CompanyCont
 
 // Events
 Route::resource('events', 'EventController');
+Route::get('events/{event}/add-user', 'EventController@addUserView');
+Route::post('events/{event}/add-user', 'EventController@addUser');
+Route::get('events/{event}/users', 'EventController@viewUsers');
 
 // Ajax
 Route::get('user-autocomplete', 'UserController@userAutocomplete');

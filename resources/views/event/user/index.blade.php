@@ -7,9 +7,9 @@
     <div class="">
         <div class="page-title">
             <div class="title_left">
-                <h3>Companies</h3>
+                <h3>Events</h3>
             </div>
-            @include('company.include.breadcrumb', ['title' => 'View Users'])
+            @include('event.include.breadcrumb', ['title' => 'View Users'])
         </div>
 
         <div class="clearfix"></div>
@@ -17,11 +17,11 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>Company {{ $company->name }} - View Users</h2>
+                        <h2>Event {{ $event->title }} - View Users</h2>
 
                         <ul class="nav navbar-right panel_toolbox">
                             <li>
-                                <a href="{{ url('companies/' . $company->id . '/add-user') }}">
+                                <a href="{{ url('events/' . $event->id . '/add-user') }}">
                                     <i class="fa fa-plus"></i> Add User
                                 </a>
                             </li>
@@ -49,7 +49,7 @@
                             </div>
                         @endif
 
-                        <table id="company-users-table" cellspacing="0" width="100%"
+                        <table id="event-users-table" cellspacing="0" width="100%"
                                class="table table-bordered table-striped dt-responsive nowrap hover">
                             <thead>
                             <tr>
@@ -64,7 +64,7 @@
                                 <tr>
                                     <td>{{ $user->name }}</td>
                                     <td>{{ $user->email }}</td>
-                                    <td>{{ $user->roleName('company_id', $company->id, $user->companyRoles()) }}</td>
+                                    <td>{{ $user->roleName('event_id', $event->id, $user->eventRoles()) }}</td>
                                     <td>
                                         <div class="text-center">
                                             <span class="btn btn-danger btn-xs delete-span" data-toggle="modal"
@@ -74,11 +74,11 @@
                                         </div>
                                         @include('include.modal', [
                                             'id' => $user->id,
-                                            'deleteTitle' => 'Delete ' . $user->name . ' from ' . $company->name,
+                                            'deleteTitle' => 'Delete ' . $user->name . ' from ' . $event->title,
                                             'deleteMessage' => 'Are you sure you want to remove ' . $user->name .
-                                                ' from ' . $company->name . '?',
-                                            'url' => 'companies/' . $company->id . '/user/' . $user->id . '/role/' .
-                                                $user->role('company_id', $company->id, $user->companyRoles())->id . '/delete'
+                                                ' from ' . $event->title . '?',
+                                            'url' => 'events/' . $event->id . '/user/' . $user->id . '/role/' .
+                                                $user->role('event_id', $event->id, $user->eventRoles())->id . '/delete'
                                         ])
                                     </td>
                                 </tr>
@@ -105,7 +105,7 @@
 
 <script>
     $(document).ready(function () {
-        $('#company-users-table').DataTable();
+        $('#event-users-table').DataTable();
     });
 </script>
 @endpush

@@ -35,16 +35,20 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Event')->withPivot('role_id');
     }
 
-    public function roles() {
+    public function companyRoles() {
         return $this->belongsToMany('App\Role', 'company_user');
     }
 
-    public function roleName($companyId) {
-        return $this->roles()->where('company_id', $companyId)->first()->name;
+    public function eventRoles() {
+        return $this->belongsToMany('App\Role', 'event_user');
     }
 
-    public function role($companyId) {
-        return $this->roles()->where('company_id', $companyId)->first();
+    public function roleName($columnName, $key, $roles) {
+        return $roles->where($columnName, $key)->first()->name;
+    }
+
+    public function role($columnName, $key, $roles) {
+        return $roles->where($columnName, $key)->first();
     }
 
 }

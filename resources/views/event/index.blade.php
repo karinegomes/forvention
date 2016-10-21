@@ -50,6 +50,7 @@
                             <thead>
                             <tr>
                                 <th>Title</th>
+                                <th>Visitors</th>
                                 <th>Actions</th>
                             </tr>
                             </thead>
@@ -57,10 +58,10 @@
                             @foreach($events as $event)
                                 <tr>
                                     <td>{{ $event->title }}</td>
-                                    {{--<td class="text-center">
-                                        <a href="{{ url('companies/' . $company->id . '/users') }}" class="btn btn-info btn-xs"><i class="fa fa-folder"></i> View Users</a>
-                                        <a href="{{ url('companies/' . $company->id . '/add-user') }}" class="btn btn-primary btn-xs"><i class="fa fa-plus"></i> Add User</a>
-                                    </td>--}}
+                                    <td class="text-center">
+                                        <a href="{{ url('events/' . $event->id . '/users') }}" class="btn btn-info btn-xs"><i class="fa fa-folder"></i> View Users</a>
+                                        <a href="{{ url('events/' . $event->id . '/add-user') }}" class="btn btn-primary btn-xs"><i class="fa fa-plus"></i> Add User</a>
+                                    </td>
                                     <td>
                                         <div class="text-center">
                                             <a href="{{ url('events/' . $event->id . '/edit') }}" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a>
