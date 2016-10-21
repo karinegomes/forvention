@@ -74,7 +74,7 @@
                             <li>
                                 <a><i class="fa fa-user"></i> Users <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href={{ url('') }}>Add User</a></li>
+                                    <li><a href={{ url('users/create') }}>Add User</a></li>
                                     <li><a href="{{ url('users') }}">View Users</a></li>
                                 </ul>
                             </li>

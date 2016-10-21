@@ -30,6 +30,8 @@ class UserController extends Controller {
             $request['role_id'] = Role::where('constant_name', 'SUPER_ADMIN')->first()->id;
         }
 
+        $request['password'] = bcrypt($request['password']);
+
         User::create($request->except('_token', 'edit'));
 
         $message = 'User <strong>' . $request->name . '</strong> was successfully created.';

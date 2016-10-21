@@ -36,8 +36,10 @@ $this->group(['middleware' => ['auth']], function() {
     $this->get('events/{event}/companies', 'EventController@viewCompanies');
     $this->delete('events/{event}/company/{company}/delete', 'EventController@deleteCompany');
 
-    // Users
-    $this->resource('users', 'UserController');
+    $this->group(['middleware' => ['super_admin']], function() {
+        // Users
+        $this->resource('users', 'UserController');
+    });
 
     // Ajax
     $this->get('user-autocomplete', 'UserController@userAutocomplete');
@@ -47,4 +49,6 @@ $this->group(['middleware' => ['auth']], function() {
     });
 });
 
-Route::get('/home', 'HomeController@index');
+Route::get('403', function() {
+    return view('errors.403');
+});
