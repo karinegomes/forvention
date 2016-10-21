@@ -158,4 +158,25 @@ class EventController extends Controller {
 
     }
 
+    public function deleteUser(Event $event, User $user, Role $role) {
+
+        try {
+            DB::table('event_user')
+                ->where('event_id', $event->id)
+                ->where('user_id', $user->id)
+                ->where('role_id', $role->id)
+                ->delete();
+        }
+        catch(Exception $e) {
+            $error = Config::get('constants.ERROR_MESSAGE');
+
+            return back()->with('error', $error);
+        }
+
+        $message = 'User ' . $user->name . ' was successfully removed from the event ' . $event->title . '.';
+
+        return back()->with('message', $message);
+
+    }
+
 }

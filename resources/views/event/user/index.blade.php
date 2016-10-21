@@ -67,6 +67,8 @@
                                     <td>{{ $user->roleName('event_id', $event->id, $user->eventRoles()) }}</td>
                                     <td>
                                         <div class="text-center">
+                                            <a href="{{ url('users/' . $user->id . '/edit') }}"
+                                               class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a>
                                             <span class="btn btn-danger btn-xs delete-span" data-toggle="modal"
                                                   data-target="#delete-modal-{{ $user->id }}">
                                                 <i class="fa fa-trash-o"></i> Delete
