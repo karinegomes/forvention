@@ -16,6 +16,8 @@ Auth::routes();
 $this->group(['middleware' => ['auth']], function() {
     $this->get('/', function () {
         return view('index');
+
+        //echo json_encode(Auth::user()->mainRole->hasPermission('MANAGE_USERS'));
     });
 
     // Companies
@@ -36,7 +38,7 @@ $this->group(['middleware' => ['auth']], function() {
     $this->get('events/{event}/companies', 'EventController@viewCompanies');
     $this->delete('events/{event}/company/{company}/delete', 'EventController@deleteCompany');
 
-    $this->group(['middleware' => ['super_admin']], function() {
+    $this->group(['middleware' => ['manage_users']], function() {
         // Users
         $this->resource('users', 'UserController');
     });

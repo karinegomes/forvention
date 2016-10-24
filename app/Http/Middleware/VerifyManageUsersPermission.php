@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 
-class VerifyIfSuperAdmin
+class VerifyManageUsersPermission
 {
     /**
      * Handle an incoming request.
@@ -16,7 +16,7 @@ class VerifyIfSuperAdmin
      */
     public function handle($request, Closure $next) {
 
-        if(!Auth::user()->mainRole || Auth::user()->mainRole->constant_name != 'SUPER_ADMIN') {
+        if(!Auth::user()->mainRole || !Auth::user()->mainRole->hasPermission('MANAGE_USERS')) {
             return redirect('403');
         }
 

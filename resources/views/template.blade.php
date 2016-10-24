@@ -70,7 +70,7 @@
                                     <li><a href="{{ url('events') }}">View Events</a></li>
                                 </ul>
                             </li>
-                            @if(Auth::user()->mainRole && Auth::user()->mainRole->constant_name == 'SUPER_ADMIN')
+                            @if(Auth::user()->mainRole && Auth::user()->mainRole->hasPermission('MANAGE_USERS'))
                             <li>
                                 <a><i class="fa fa-user"></i> Users <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
@@ -204,7 +204,7 @@
 </div>
 
 <!-- jQuery -->
-<script src="{{ asset('vendors/jquery/dist/jquery.min.js') }}"></script>
+<script src="{{ asset('vendors/jquery/jquery-3.1.1.min.js') }}"></script>
 <!-- Bootstrap -->
 <script src="{{ asset('vendors/bootstrap/dist/js/bootstrap.min.js') }}"></script>
 <!-- bootstrap-daterangepicker -->

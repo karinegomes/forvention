@@ -21,6 +21,9 @@ class UserController extends Controller {
     }
 
     public function create() {
+
+        //$roles = Role::whereIn('constant_name', ['SUPER_ADMIN', 'EVENT_CREATOR']);
+
         return view('user.create');
     }
 
@@ -28,6 +31,9 @@ class UserController extends Controller {
 
         if($request['super_admin'] == 'on') {
             $request['role_id'] = Role::where('constant_name', 'SUPER_ADMIN')->first()->id;
+        }
+        else if($request['event_creator'] == 'on') {
+            $request['role_id'] = Role::where('constant_name', 'EVENT_CREATOR')->first()->id;
         }
 
         $request['password'] = bcrypt($request['password']);
@@ -42,19 +48,25 @@ class UserController extends Controller {
 
     public function edit(User $user) {
 
-        $checked = '';
+        $roleName = '';
 
-        if($user->mainRole && $user->mainRole->constant_name == 'SUPER_ADMIN') {
-            $checked = 'checked';
-        }
+        if($user->mainRole)
+            $roleName = $user->mainRole->constant_name;
 
-        return view('user.edit')->with('user', $user)->with('checked', $checked);
+        return view('user.edit')->with('user', $user)->with('roleName', $roleName);
 
     }
 
     public function update(UserRequest $request, User $user) {
 
         $request['password'] = bcrypt($request['password']);
+
+        if($request['super_admin'] == 'on') {
+            $request['role_id'] = Role::where('constant_name', 'SUPER_ADMIN')->first()->id;
+        }
+        else if($request['event_creator'] == 'on') {
+            $request['role_id'] = Role::where('constant_name', 'EVENT_CREATOR')->first()->id;
+        }
 
         try {
             $user->update($request->except('_token', 'edit'));
@@ -67,8 +79,7 @@ class UserController extends Controller {
 
         $message = 'User <strong>' . $user->name . '</strong> was successfully updated.';
 
-        // TODO: Change redirect to users page
-        return redirect('/')->with('message', $message);
+        return redirect('users')->with('message', $message);
 
     }
 

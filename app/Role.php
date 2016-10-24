@@ -12,4 +12,8 @@ class Role extends Model {
         return $this->belongsToMany('App\Permission');
     }
 
+    public function hasPermission($permissionName) {
+        return $this->permissions()->where('constant_name', $permissionName)->exists();
+    }
+
 }

@@ -1,5 +1,7 @@
 @extends('template')
 
+@include('user.include.css')
+
 @section('content')
 
     <div class="right_col" role="main">
@@ -35,3 +37,5 @@
     </div>
 
 @endsection
+
+@include('user.include.scripts')
