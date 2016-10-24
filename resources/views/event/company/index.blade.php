@@ -18,13 +18,15 @@
                     <div class="x_title">
                         <h2>Event {{ $event->title }} - View Companies</h2>
 
-                        <ul class="nav navbar-right panel_toolbox">
-                            <li>
-                                <a href="{{ url('events/' . $event->id . '/add-company') }}">
-                                    <i class="fa fa-plus"></i> Add Company
-                                </a>
-                            </li>
-                        </ul>
+                        @if(!Auth::user()->isVisitor())
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li>
+                                    <a href="{{ url('events/' . $event->id . '/add-company') }}">
+                                        <i class="fa fa-plus"></i> Add Company
+                                    </a>
+                                </li>
+                            </ul>
+                        @endif
 
                         <div class="clearfix"></div>
                     </div>
@@ -53,27 +55,31 @@
                             <thead>
                             <tr>
                                 <th>Name</th>
-                                <th>Actions</th>
+                                @if(!Auth::user()->isVisitor())
+                                    <th>Actions</th>
+                                @endif
                             </tr>
                             </thead>
                             <tbody>
                             @foreach($companies as $company)
                                 <tr>
                                     <td>{{ $company->name }}</td>
-                                    <td>
-                                        <div class="text-center">
-                                            <span class="btn btn-danger btn-xs delete-span" data-toggle="modal"
-                                                  data-target="#delete-modal-{{ $company->id }}">
-                                                <i class="fa fa-trash-o"></i> Delete
-                                            </span>
-                                        </div>
-                                        @include('include.modal', [
-                                            'id' => $company->id,
-                                            'deleteTitle' => 'Delete ' . $company->name . ' from ' . $event->title,
-                                            'deleteMessage' => 'Are you sure you want to remove ' . $company->name . ' from ' . $event->title . '?',
-                                            'url' => 'events/' . $event->id . '/company/' . $company->id . '/delete'
-                                        ])
-                                    </td>
+                                    @if(!Auth::user()->isVisitor())
+                                        <td>
+                                            <div class="text-center">
+                                                <span class="btn btn-danger btn-xs delete-span" data-toggle="modal"
+                                                      data-target="#delete-modal-{{ $company->id }}">
+                                                    <i class="fa fa-trash-o"></i> Delete
+                                                </span>
+                                            </div>
+                                            @include('include.modal', [
+                                                'id' => $company->id,
+                                                'deleteTitle' => 'Delete ' . $company->name . ' from ' . $event->title,
+                                                'deleteMessage' => 'Are you sure you want to remove ' . $company->name . ' from ' . $event->title . '?',
+                                                'url' => 'events/' . $event->id . '/company/' . $company->id . '/delete'
+                                            ])
+                                        </td>
+                                    @endif
                                 </tr>
                             @endforeach
                             </tbody>

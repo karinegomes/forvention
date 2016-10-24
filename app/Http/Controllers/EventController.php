@@ -12,14 +12,22 @@ use DateTime;
 use Illuminate\Http\Request;
 
 use App\Http\Requests\EventRequest;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 
 class EventController extends Controller {
 
+    public function __construct() {
+        $this->middleware('manage_events');
+    }
+
     public function index() {
 
-        $events = Event::all();
+        if(Auth::user()->isVisitor())
+            $events = Auth::user()->events;
+        else
+            $events = Event::all();
 
         return view('event.index')->with('events', $events);
 

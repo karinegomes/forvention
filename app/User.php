@@ -76,8 +76,25 @@ class User extends Authenticatable
         DB::table('favorite_products')->where('user_id', $this->id)->delete();
     }
 
-    public function hasPermission() {
-        //return $this->
+    public function hasEventPermission($permission) {
+
+        $roles = $this->eventRoles;
+
+        $hasPermission = false;
+
+        foreach ($roles as $role) {
+            $hasPermission = $role->hasPermission($permission);
+
+            if($hasPermission)
+                break;
+        }
+
+        return $hasPermission;
+
+    }
+
+    public function isVisitor() {
+        return $this->eventRoles()->where('constant_name', 'VISITOR')->exists();
     }
 
 }

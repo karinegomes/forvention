@@ -16,6 +16,10 @@ use Illuminate\Support\Facades\DB;
 
 class CompanyController extends Controller {
 
+    public function __construct() {
+        $this->middleware('manage_companies');
+    }
+
     public function index() {
 
         // TODO: Show companies depending on the user role

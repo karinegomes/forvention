@@ -17,11 +17,11 @@ $this->group(['middleware' => ['auth']], function() {
     $this->get('/', function () {
         return view('index');
 
-        /*echo Auth::user()->eventRoles()->with(['permissions' => function($query) {
-            $query->where('constant_name', 'VIEW_EVENTS');
-        }])->get();*/
+        //echo json_encode(Auth::user()->hasEventPermission('VIEW_EVENTS'));
 
-        //echo Auth::user()->eventRoles()->with('permissions')->toSql();
+        //echo json_encode(Auth::user()->eventRoles()->where('constant_name', 'VISITOR')->exists());
+
+        //echo json_encode(Auth::user()->events);
     });
 
     // Companies
@@ -39,13 +39,11 @@ $this->group(['middleware' => ['auth']], function() {
     $this->delete('events/{event}/user/{user}/role/{role}/delete', 'EventController@deleteUser');
     $this->get('events/{event}/add-company', 'EventController@addCompanyView');
     $this->post('events/{event}/add-company', 'EventController@addCompany');
-    $this->get('events/{event}/companies', 'EventController@viewCompanies');
+    $this->get('events/{event}/companies', ['as' => 'events.companies', 'uses' => 'EventController@viewCompanies']);
     $this->delete('events/{event}/company/{company}/delete', 'EventController@deleteCompany');
 
-    //$this->group(['middleware' => ['manage_users']], function() {
-        // Users
-        $this->resource('users', 'UserController');
-    //});
+    // Users
+    $this->resource('users', 'UserController');
 
     // Ajax
     $this->get('user-autocomplete', 'UserController@userAutocomplete');
