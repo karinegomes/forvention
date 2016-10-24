@@ -10,7 +10,7 @@
         <title>ForVention</title>
 
         <!-- Bootstrap -->
-        <link href="{{ asset('vendors/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
+        <link href="{{ asset('vendors/bootstrap/bootstrap.min.css') }}" rel="stylesheet">
         <!-- Custom Theme Style -->
         <link href="{{ asset('build/css/custom.min.css') }}" rel="stylesheet">
     </head>

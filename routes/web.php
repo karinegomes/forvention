@@ -38,10 +38,10 @@ $this->group(['middleware' => ['auth']], function() {
     $this->get('events/{event}/companies', 'EventController@viewCompanies');
     $this->delete('events/{event}/company/{company}/delete', 'EventController@deleteCompany');
 
-    $this->group(['middleware' => ['manage_users']], function() {
+    //$this->group(['middleware' => ['manage_users']], function() {
         // Users
         $this->resource('users', 'UserController');
-    });
+    //});
 
     // Ajax
     $this->get('user-autocomplete', 'UserController@userAutocomplete');

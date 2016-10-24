@@ -10,7 +10,7 @@
     <title>ForVention</title>
 
     <!-- Bootstrap -->
-    <link href="{{ asset('vendors/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('vendors/bootstrap/bootstrap.min.css') }}" rel="stylesheet">
     <!-- Font Awesome -->
     <link href="{{ asset('vendors/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
     <!-- NProgress -->
@@ -38,9 +38,9 @@
 </div>
 
 <!-- jQuery -->
-<script src="{{ asset('vendors/jquery/dist/jquery.min.js') }}"></script>
+<script src="{{ asset('vendors/jquery/jquery.min.js') }}"></script>
 <!-- Bootstrap -->
-<script src="{{ asset('vendors/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+<script src="{{ asset('vendors/bootstrap/bootstrap.min.js') }}"></script>
 <!-- Custom Theme Scripts -->
 <script src="{{ asset('build/js/custom.min.js') }}"></script>
 </body>

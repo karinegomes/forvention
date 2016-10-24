@@ -10,7 +10,7 @@
     <title>ForVention</title>
 
     <!-- Bootstrap -->
-    <link href="{{ asset('vendors/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('vendors/bootstrap/bootstrap.min.css') }}" rel="stylesheet">
     <!-- Font Awesome -->
     <link href="{{ asset('vendors/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
     <!-- Custom Theme Style -->
@@ -56,20 +56,24 @@
                         <ul class="nav side-menu">
                             <li><a href="{{ url('/') . '/' }}"><i class="fa fa-home"></i> Home</a>
                             </li>
-                            <li>
-                                <a><i class="fa fa-building"></i> Companies <span class="fa fa-chevron-down"></span></a>
-                                <ul class="nav child_menu">
-                                    <li><a href={{ url('companies/create') }}>Add Company</a></li>
-                                    <li><a href="{{ url('companies') }}">View Companies</a></li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a><i class="fa fa-calendar"></i> Events <span class="fa fa-chevron-down"></span></a>
-                                <ul class="nav child_menu">
-                                    <li><a href={{ url('events/create') }}>Add Event</a></li>
-                                    <li><a href="{{ url('events') }}">View Events</a></li>
-                                </ul>
-                            </li>
+                            @if(Auth::user()->mainRole && Auth::user()->mainRole->hasPermission('MANAGE_COMPANIES'))
+                                <li>
+                                    <a><i class="fa fa-building"></i> Companies <span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <li><a href={{ url('companies/create') }}>Add Company</a></li>
+                                        <li><a href="{{ url('companies') }}">View Companies</a></li>
+                                    </ul>
+                                </li>
+                            @endif
+                            @if(Auth::user()->mainRole && Auth::user()->mainRole->hasPermission('MANAGE_EVENTS'))
+                                <li>
+                                    <a><i class="fa fa-calendar"></i> Events <span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <li><a href={{ url('events/create') }}>Add Event</a></li>
+                                        <li><a href="{{ url('events') }}">View Events</a></li>
+                                    </ul>
+                                </li>
+                            @endif
                             @if(Auth::user()->mainRole && Auth::user()->mainRole->hasPermission('MANAGE_USERS'))
                             <li>
                                 <a><i class="fa fa-user"></i> Users <span class="fa fa-chevron-down"></span></a>
@@ -103,14 +107,7 @@
                                 <span class=" fa fa-angle-down"></span>
                             </a>
                             <ul class="dropdown-menu dropdown-usermenu pull-right">
-                                <li><a href="javascript:;"> Profile</a></li>
-                                <li>
-                                    <a href="javascript:;">
-                                        <span class="badge bg-red pull-right">50%</span>
-                                        <span>Settings</span>
-                                    </a>
-                                </li>
-                                <li><a href="javascript:;">Help</a></li>
+                                <li><a href="{{ url('users/' . Auth::user()->id . '/edit') }}"> Profile</a></li>
                                 <li>
                                     <a href="{{ url('/logout') }}"
                                        onclick="event.preventDefault();
@@ -206,7 +203,7 @@
 <!-- jQuery -->
 <script src="{{ asset('vendors/jquery/jquery-3.1.1.min.js') }}"></script>
 <!-- Bootstrap -->
-<script src="{{ asset('vendors/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+<script src="{{ asset('vendors/bootstrap/bootstrap.min.js') }}"></script>
 <!-- bootstrap-daterangepicker -->
 <script src="{{ asset('js/moment/moment.min.js') }}"></script>
 <script src="{{ asset('js/datepicker/daterangepicker.js') }}"></script>
