@@ -9,6 +9,24 @@ class Event extends Model {
 
     protected $guarded = ['id'];
 
+    public function getDateAttribute($value) {
+        $date = new \DateTime($value);
+
+        return $date->format('Y/m/d');
+    }
+
+    public function getStartAttribute($value) {
+        $date = new \DateTime($value);
+
+        return $date->format('H:i');
+    }
+
+    public function getEndAttribute($value) {
+        $date = new \DateTime($value);
+
+        return $date->format('H:i');
+    }
+
     public function companies() {
         return $this->belongsToMany('App\Company');
     }

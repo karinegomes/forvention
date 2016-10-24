@@ -58,7 +58,7 @@
                             <tbody>
                             @foreach($events as $event)
                                 <tr>
-                                    <td>{{ $event->title }}</td>
+                                    <td><a href="{{ url('events/' . $event->id) }}">{{ $event->title }}</a></td>
                                     <td class="text-center">
                                         <a href="{{ url('events/' . $event->id . '/companies') }}" class="btn btn-info btn-xs"><i class="fa fa-folder"></i> View Companies</a>
                                         <a href="{{ url('events/' . $event->id . '/add-company') }}" class="btn btn-primary btn-xs"><i class="fa fa-plus"></i> Add Company</a>
