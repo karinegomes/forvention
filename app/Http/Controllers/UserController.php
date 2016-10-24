@@ -63,14 +63,15 @@ class UserController extends Controller {
 
     public function update(UserRequest $request, User $user) {
 
-        $request['password'] = bcrypt($request['password']);
+        if($request['password'] != '')
+            $request['password'] = bcrypt($request['password']);
+        else
+            $request['password'] = $user->password;
 
-        if($request['super_admin'] == 'on') {
+        if($request['super_admin'] == 'on')
             $request['role_id'] = Role::where('constant_name', 'SUPER_ADMIN')->first()->id;
-        }
-        else if($request['event_creator'] == 'on') {
+        else if($request['event_creator'] == 'on')
             $request['role_id'] = Role::where('constant_name', 'EVENT_CREATOR')->first()->id;
-        }
 
         try {
             $user->update($request->except('_token', 'edit'));
