@@ -173,4 +173,12 @@ class CompanyController extends Controller {
 
     }
 
+    public function addAdminView(Company $company) {
+
+        $roles = Role::where('constant_name', 'COMPANY')->get();
+
+        return view('company.admin.add')->with('company', $company)->with('roles', $roles);
+
+    }
+
 }

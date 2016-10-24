@@ -24,6 +24,7 @@ $this->group(['middleware' => ['auth']], function() {
     $this->post('companies/{company}/add-user', 'CompanyController@addUser');
     $this->get('companies/{company}/users', ['as' => 'companies.users', 'uses' => 'CompanyController@viewUsers']);
     $this->delete('companies/{company}/user/{user}/role/{role}/delete', 'CompanyController@deleteUser');
+    $this->get('companies/{company}/add-admin', 'CompanyController@addAdminView');
 
     // Events
     $this->resource('events', 'EventController');

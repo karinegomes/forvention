@@ -54,6 +54,9 @@
                                     <th>Name</th>
                                     <th>Users</th>
                                     @if(Auth::user()->mainRole && Auth::user()->mainRole->hasPermission('MANAGE_COMPANIES'))
+                                        <th>Admin</th>
+                                    @endif
+                                    @if(Auth::user()->mainRole && Auth::user()->mainRole->hasPermission('MANAGE_COMPANIES'))
                                         <th>Actions</th>
                                     @endif
                                 </tr>
@@ -68,6 +71,11 @@
                                             <a href="{{ url('companies/' . $company->id . '/add-user') }}" class="btn btn-primary btn-xs"><i class="fa fa-plus"></i> Add User</a>
                                         @endif
                                     </td>
+                                    @if(Auth::user()->mainRole && Auth::user()->mainRole->hasPermission('MANAGE_COMPANIES'))
+                                        <td class="text-center">
+                                            {{--<a href="{{ url('companies/' . $company->id . '/add-admin') }}" class="btn btn-primary btn-xs"><i class="fa fa-plus"></i> Add Admin</a>--}}
+                                        </td>
+                                    @endif
                                     @if(Auth::user()->mainRole && Auth::user()->mainRole->hasPermission('MANAGE_COMPANIES'))
                                         <td>
                                             <div class="text-center">
