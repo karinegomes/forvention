@@ -76,4 +76,8 @@ class User extends Authenticatable
         DB::table('favorite_products')->where('user_id', $this->id)->delete();
     }
 
+    public function hasPermission() {
+        //return $this->
+    }
+
 }

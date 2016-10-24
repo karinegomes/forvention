@@ -17,7 +17,11 @@ $this->group(['middleware' => ['auth']], function() {
     $this->get('/', function () {
         return view('index');
 
-        //echo json_encode(Auth::user()->mainRole->hasPermission('MANAGE_USERS'));
+        /*echo Auth::user()->eventRoles()->with(['permissions' => function($query) {
+            $query->where('constant_name', 'VIEW_EVENTS');
+        }])->get();*/
+
+        //echo Auth::user()->eventRoles()->with('permissions')->toSql();
     });
 
     // Companies

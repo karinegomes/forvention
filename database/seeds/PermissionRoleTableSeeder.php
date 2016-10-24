@@ -144,5 +144,12 @@ class PermissionRoleTableSeeder extends Seeder
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s")
         ]);
+
+        DB::table('permission_role')->insert([
+            'role_id' => 6,
+            'permission_id' => 9,
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
+        ]);
     }
 }
