@@ -19,13 +19,15 @@
                     <div class="x_title">
                         <h2>Company {{ $company->name }} - View Users</h2>
 
-                        <ul class="nav navbar-right panel_toolbox">
-                            <li>
-                                <a href="{{ url('companies/' . $company->id . '/add-user') }}">
-                                    <i class="fa fa-plus"></i> Add User
-                                </a>
-                            </li>
-                        </ul>
+                        @if(Auth::user()->mainRole && Auth::user()->mainRole->hasPermission('MANAGE_COMPANIES'))
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li>
+                                    <a href="{{ url('companies/' . $company->id . '/add-user') }}">
+                                        <i class="fa fa-plus"></i> Add User
+                                    </a>
+                                </li>
+                            </ul>
+                        @endif
 
                         <div class="clearfix"></div>
                     </div>
@@ -56,7 +58,9 @@
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Role</th>
-                                <th>Actions</th>
+                                @if(Auth::user()->mainRole && Auth::user()->mainRole->hasPermission('MANAGE_COMPANIES'))
+                                    <th>Actions</th>
+                                @endif
                             </tr>
                             </thead>
                             <tbody>
@@ -65,22 +69,24 @@
                                     <td>{{ $user->name }}</td>
                                     <td>{{ $user->email }}</td>
                                     <td>{{ $user->roleName('company_id', $company->id, $user->companyRoles()) }}</td>
-                                    <td>
-                                        <div class="text-center">
-                                            <span class="btn btn-danger btn-xs delete-span" data-toggle="modal"
-                                                  data-target="#delete-modal-{{ $user->id }}">
-                                                <i class="fa fa-trash-o"></i> Delete
-                                            </span>
-                                        </div>
-                                        @include('include.modal', [
-                                            'id' => $user->id,
-                                            'deleteTitle' => 'Delete ' . $user->name . ' from ' . $company->name,
-                                            'deleteMessage' => 'Are you sure you want to remove ' . $user->name .
-                                                ' from ' . $company->name . '?',
-                                            'url' => 'companies/' . $company->id . '/user/' . $user->id . '/role/' .
-                                                $user->role('company_id', $company->id, $user->companyRoles())->id . '/delete'
-                                        ])
-                                    </td>
+                                    @if(Auth::user()->mainRole && Auth::user()->mainRole->hasPermission('MANAGE_COMPANIES'))
+                                        <td>
+                                            <div class="text-center">
+                                                <span class="btn btn-danger btn-xs delete-span" data-toggle="modal"
+                                                      data-target="#delete-modal-{{ $user->id }}">
+                                                    <i class="fa fa-trash-o"></i> Delete
+                                                </span>
+                                            </div>
+                                            @include('include.modal', [
+                                                'id' => $user->id,
+                                                'deleteTitle' => 'Delete ' . $user->name . ' from ' . $company->name,
+                                                'deleteMessage' => 'Are you sure you want to remove ' . $user->name .
+                                                    ' from ' . $company->name . '?',
+                                                'url' => 'companies/' . $company->id . '/user/' . $user->id . '/role/' .
+                                                    $user->role('company_id', $company->id, $user->companyRoles())->id . '/delete'
+                                            ])
+                                        </td>
+                                    @endif
                                 </tr>
                             @endforeach
                             </tbody>

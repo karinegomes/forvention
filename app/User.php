@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable
@@ -76,9 +77,71 @@ class User extends Authenticatable
         DB::table('favorite_products')->where('user_id', $this->id)->delete();
     }
 
-    public function hasEventPermission($permission) {
+    public function hasEventPermission($permission, $eventId = null, $companyId = null) {
 
         $roles = $this->eventRoles;
+
+        if(isset($eventId)) {
+            $exists = Auth::user()->events()->where('event_id', $eventId)->exists();
+
+            if(!$exists)
+                return false;
+        }
+
+        if(isset($companyId)) {
+            $exists = Auth::user()->events()->whereHas('companies', function($query) use ($companyId) {
+                $query->where('company_id', $companyId);
+            })->exists();
+
+            if(!$exists)
+                return false;
+        }
+
+        $hasPermission = false;
+
+        foreach ($roles as $role) {
+            $hasPermission = $role->hasPermission($permission);
+
+            if($hasPermission)
+                break;
+        }
+
+        return $hasPermission;
+
+    }
+
+    public function hasCompanyPermission($permission, $companyId = null, $eventId = null) {
+
+        if(isset($companyId)) {
+            $exists = Auth::user()->companies()->where('company_id', $companyId)->exists();
+
+            if(!$exists) {
+                $events = Auth::user()->events;
+                $companyEvents = Company::find($companyId)->events;
+
+                foreach($events as $event) {
+                    foreach($companyEvents as $companyEvent) {
+                        if($event->id == $companyEvent->id) {
+                            return true;
+                        }
+                    }
+                }
+            }
+            else {
+                return true;
+            }
+        }
+
+        if(isset($eventId)) {
+            $exists = Auth::user()->companies()->whereHas('events', function($query) use ($eventId) {
+                $query->where('event_id', $eventId);
+            })->exists();
+
+            if(!$exists)
+                return false;
+        }
+
+        $roles = $this->companyRoles;
 
         $hasPermission = false;
 
@@ -95,6 +158,10 @@ class User extends Authenticatable
 
     public function isVisitor() {
         return $this->eventRoles()->where('constant_name', 'VISITOR')->exists();
+    }
+
+    public function isPresentor() {
+        return $this->companyRoles()->where('constant_name', 'PRESENTOR')->exists();
     }
 
 }

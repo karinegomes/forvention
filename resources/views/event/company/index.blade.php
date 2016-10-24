@@ -18,7 +18,7 @@
                     <div class="x_title">
                         <h2>Event {{ $event->title }} - View Companies</h2>
 
-                        @if(!Auth::user()->isVisitor())
+                        @if(Auth::user()->mainRole && Auth::user()->mainRole->hasPermission('MANAGE_EVENTS'))
                             <ul class="nav navbar-right panel_toolbox">
                                 <li>
                                     <a href="{{ url('events/' . $event->id . '/add-company') }}">
@@ -55,7 +55,7 @@
                             <thead>
                             <tr>
                                 <th>Name</th>
-                                @if(!Auth::user()->isVisitor())
+                                @if(Auth::user()->mainRole && Auth::user()->mainRole->hasPermission('MANAGE_EVENTS'))
                                     <th>Actions</th>
                                 @endif
                             </tr>
@@ -63,8 +63,8 @@
                             <tbody>
                             @foreach($companies as $company)
                                 <tr>
-                                    <td>{{ $company->name }}</td>
-                                    @if(!Auth::user()->isVisitor())
+                                    <td><a href="{{ url('companies/' . $company->id) }}">{{ $company->name }}</a></td>
+                                    @if(Auth::user()->mainRole && Auth::user()->mainRole->hasPermission('MANAGE_EVENTS'))
                                         <td>
                                             <div class="text-center">
                                                 <span class="btn btn-danger btn-xs delete-span" data-toggle="modal"

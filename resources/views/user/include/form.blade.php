@@ -77,7 +77,7 @@
 
 <div class="form-group">
     <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-        <a href="{{ url('events') }}"><button type="button" class="btn btn-primary">Cancel</button></a>
+        <a href="{{ url('users') }}"><button type="button" class="btn btn-primary">Cancel</button></a>
         <button type="submit" class="btn btn-success">Submit</button>
     </div>
 </div>

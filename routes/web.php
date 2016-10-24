@@ -16,19 +16,13 @@ Auth::routes();
 $this->group(['middleware' => ['auth']], function() {
     $this->get('/', function () {
         return view('index');
-
-        //echo json_encode(Auth::user()->hasEventPermission('VIEW_EVENTS'));
-
-        //echo json_encode(Auth::user()->eventRoles()->where('constant_name', 'VISITOR')->exists());
-
-        //echo json_encode(Auth::user()->events);
     });
 
     // Companies
     $this->resource('companies', 'CompanyController');
     $this->get('companies/{company}/add-user', 'CompanyController@addUserView');
     $this->post('companies/{company}/add-user', 'CompanyController@addUser');
-    $this->get('companies/{company}/users', 'CompanyController@viewUsers');
+    $this->get('companies/{company}/users', ['as' => 'companies.users', 'uses' => 'CompanyController@viewUsers']);
     $this->delete('companies/{company}/user/{user}/role/{role}/delete', 'CompanyController@deleteUser');
 
     // Events

@@ -18,15 +18,17 @@ class VerifyManageEventsPermission
 
         // Check if the user doesn't have permission to manage evemts
         if(!Auth::user()->mainRole || !Auth::user()->mainRole->hasPermission('MANAGE_EVENTS')) {
-            // Check if it's index/show route
-            if(in_array($request->route()->getName(), ['events.index', 'events.show', 'events.companies'])) {
-                // Check if the user is not a visitor
-                if(!Auth::user()->isVisitor()) {
+
+            if($request->route()->getName() == 'events.index') {
+                if(!Auth::user()->hasEventPermission('VIEW_EVENTS') && !Auth::user()->hasCompanyPermission('VIEW_EVENTS')) {
                     return redirect('403');
                 }
             }
-            else {
-                return redirect('403');
+            else if(in_array($request->route()->getName(), ['events.show', 'events.companies'])) {
+                if(!Auth::user()->hasEventPermission('VIEW_EVENT', $request->route('event')->id) &&
+                    !Auth::user()->hasCompanyPermission('VIEW_EVENT', null, $request->route('event')->id)) {
+                    return redirect('403');
+                }
             }
         }
 

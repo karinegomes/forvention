@@ -19,9 +19,11 @@
                     <div class="x_title">
                         <h2>View Companies</h2>
 
-                        <ul class="nav navbar-right panel_toolbox">
-                            <li><a href="{{ url('companies/create') }}"><i class="fa fa-plus"></i> Add Company</a></li>
-                        </ul>
+                        @if(Auth::user()->mainRole && Auth::user()->mainRole->hasPermission('MANAGE_COMPANIES'))
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a href="{{ url('companies/create') }}"><i class="fa fa-plus"></i> Add Company</a></li>
+                            </ul>
+                        @endif
 
                         <div class="clearfix"></div>
                     </div>
@@ -51,7 +53,9 @@
                                 <tr>
                                     <th>Name</th>
                                     <th>Users</th>
-                                    <th>Actions</th>
+                                    @if(Auth::user()->mainRole && Auth::user()->mainRole->hasPermission('MANAGE_COMPANIES'))
+                                        <th>Actions</th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody>
@@ -60,39 +64,43 @@
                                     <td><a href="{{ url('companies/' . $company->id) }}">{{ $company->name }}</a></td>
                                     <td class="text-center">
                                         <a href="{{ url('companies/' . $company->id . '/users') }}" class="btn btn-info btn-xs"><i class="fa fa-folder"></i> View Users</a>
-                                        <a href="{{ url('companies/' . $company->id . '/add-user') }}" class="btn btn-primary btn-xs"><i class="fa fa-plus"></i> Add User</a>
+                                        @if(Auth::user()->mainRole && Auth::user()->mainRole->hasPermission('MANAGE_COMPANIES'))
+                                            <a href="{{ url('companies/' . $company->id . '/add-user') }}" class="btn btn-primary btn-xs"><i class="fa fa-plus"></i> Add User</a>
+                                        @endif
                                     </td>
-                                    <td>
-                                        <div class="text-center">
-                                            <a href="{{ url('companies/' . $company->id . '/edit') }}" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a>
-                                            <span class="btn btn-danger btn-xs delete-span" data-toggle="modal" data-target="#delete-modal-{{ $company->id }}"><i class="fa fa-trash-o"></i> Delete </span>
-                                        </div>
-                                        <div class="modal" tabindex="-1" role="dialog" aria-hidden="true" id="delete-modal-{{ $company->id }}">
-                                            <div class="modal-dialog modal-sm">
-                                                <div class="modal-content">
+                                    @if(Auth::user()->mainRole && Auth::user()->mainRole->hasPermission('MANAGE_COMPANIES'))
+                                        <td>
+                                            <div class="text-center">
+                                                <a href="{{ url('companies/' . $company->id . '/edit') }}" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a>
+                                                <span class="btn btn-danger btn-xs delete-span" data-toggle="modal" data-target="#delete-modal-{{ $company->id }}"><i class="fa fa-trash-o"></i> Delete </span>
+                                            </div>
+                                            <div class="modal" tabindex="-1" role="dialog" aria-hidden="true" id="delete-modal-{{ $company->id }}">
+                                                <div class="modal-dialog modal-sm">
+                                                    <div class="modal-content">
 
-                                                    <div class="modal-header">
-                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
-                                                        </button>
-                                                        <h4 class="modal-title" id="myModalLabel2">Delete confirmation</h4>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <h4>Delete {{ $company->name }}</h4>
-                                                        <p>Are you sure you want to delete company {{ $company->name }}?</p>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                                                        <form action="{{ url('companies/' . $company->id) }}" method="POST" class="delete-form">
-                                                            {{ csrf_field() }}
-                                                            {{ method_field('DELETE') }}
-                                                            <button type="submit" class="btn btn-danger">Delete</button>
-                                                        </form>
-                                                    </div>
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+                                                            </button>
+                                                            <h4 class="modal-title" id="myModalLabel2">Delete confirmation</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <h4>Delete {{ $company->name }}</h4>
+                                                            <p>Are you sure you want to delete company {{ $company->name }}?</p>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                                            <form action="{{ url('companies/' . $company->id) }}" method="POST" class="delete-form">
+                                                                {{ csrf_field() }}
+                                                                {{ method_field('DELETE') }}
+                                                                <button type="submit" class="btn btn-danger">Delete</button>
+                                                            </form>
+                                                        </div>
 
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </td>
+                                        </td>
+                                    @endif
                                 </tr>
                             @endforeach
                             </tbody>

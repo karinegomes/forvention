@@ -6,6 +6,7 @@ use App\Company;
 use App\Event;
 use App\Http\Requests\AddUserRequest;
 use App\Role;
+use App\Traits\Utils;
 use App\User;
 use Exception;
 use DateTime;
@@ -26,6 +27,19 @@ class EventController extends Controller {
 
         if(Auth::user()->isVisitor())
             $events = Auth::user()->events;
+        elseif(Auth::user()->isPresentor()) {
+            $companies = Auth::user()->companies;
+            $events = [];
+
+            foreach($companies as $company) {
+                $companyEvents = $company->events;
+
+                foreach($companyEvents as $event) {
+                    if(!Utils::in_array_field($event->id, 'id', $events))
+                        array_push($events, $event);
+                }
+            }
+        }
         else
             $events = Event::all();
 

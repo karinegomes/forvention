@@ -19,7 +19,7 @@
                     <div class="x_title">
                         <h2>View Events</h2>
 
-                        @if(!Auth::user()->isVisitor())
+                        @if(Auth::user()->mainRole && Auth::user()->mainRole->hasPermission('MANAGE_EVENTS'))
                             <ul class="nav navbar-right panel_toolbox">
                                 <li><a href="{{ url('events/create') }}"><i class="fa fa-plus"></i> Add Event</a></li>
                             </ul>
@@ -53,7 +53,7 @@
                             <tr>
                                 <th>Title</th>
                                 <th>Companies</th>
-                                @if(!Auth::user()->isVisitor())
+                                @if(Auth::user()->mainRole && Auth::user()->mainRole->hasPermission('MANAGE_EVENTS'))
                                     <th>Visitors</th>
                                     <th>Actions</th>
                                 @endif
@@ -65,11 +65,11 @@
                                     <td><a href="{{ url('events/' . $event->id) }}">{{ $event->title }}</a></td>
                                     <td class="text-center">
                                         <a href="{{ url('events/' . $event->id . '/companies') }}" class="btn btn-info btn-xs"><i class="fa fa-folder"></i> View Companies</a>
-                                        @if(!Auth::user()->isVisitor())
+                                        @if(Auth::user()->mainRole && Auth::user()->mainRole->hasPermission('MANAGE_EVENTS'))
                                             <a href="{{ url('events/' . $event->id . '/add-company') }}" class="btn btn-primary btn-xs"><i class="fa fa-plus"></i> Add Company</a>
                                         @endif
                                     </td>
-                                    @if(!Auth::user()->isVisitor())
+                                    @if(Auth::user()->mainRole && Auth::user()->mainRole->hasPermission('MANAGE_EVENTS'))
                                         <td class="text-center">
                                             <a href="{{ url('events/' . $event->id . '/users') }}" class="btn btn-info btn-xs"><i class="fa fa-folder"></i> View Users</a>
                                             <a href="{{ url('events/' . $event->id . '/add-user') }}" class="btn btn-primary btn-xs"><i class="fa fa-plus"></i> Add User</a>

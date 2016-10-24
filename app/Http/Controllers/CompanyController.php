@@ -11,6 +11,7 @@ use Exception;
 use Illuminate\Http\Request;
 
 use App\Http\Requests\CompanyRequest;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 
@@ -22,8 +23,12 @@ class CompanyController extends Controller {
 
     public function index() {
 
-        // TODO: Show companies depending on the user role
-        $companies = Company::all();
+        if(Auth::user()->isPresentor()) {
+            $companies = Auth::user()->companies;
+        }
+        else {
+            $companies = Company::all();
+        }
 
         return view('company.index')->with('companies', $companies);
 

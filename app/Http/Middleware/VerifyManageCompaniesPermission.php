@@ -16,20 +16,22 @@ class VerifyManageCompaniesPermission
      */
     public function handle($request, Closure $next) {
 
-        // Check if the user doesn't have permission to manage evemts
         if(!Auth::user()->mainRole || !Auth::user()->mainRole->hasPermission('MANAGE_COMPANIES')) {
-            /*// Check if it's index/show route
-            if(in_array($request->route()->getName(), ['events.index', 'events.show', 'events.companies'])) {
-                // Check if the user is not a visitor
-                if(!Auth::user()->isVisitor()) {
+            if(in_array($request->route()->getName(), ['companies.show', 'companies.users'])) {
+                if((Auth::user()->isVisitor() && !Auth::user()->hasEventPermission('VIEW_COMPANY', null, $request->route('company')->id)) ||
+                    Auth::user()->isPresentor() && !Auth::user()->hasCompanyPermission('VIEW_COMPANY', $request->route('company')->id)) {
+
+                    return redirect('403');
+                }
+            }
+            else if($request->route()->getName() == 'companies.index') {
+                if(Auth::user()->isPresentor() && !Auth::user()->hasCompanyPermission('VIEW_COMPANIES')) {
                     return redirect('403');
                 }
             }
             else {
                 return redirect('403');
-            }*/
-
-            return redirect('403');
+            }
         }
 
         return $next($request);
