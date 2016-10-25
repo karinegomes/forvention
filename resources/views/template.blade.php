@@ -56,11 +56,11 @@
                         <ul class="nav side-menu">
                             <li><a href="{{ url('/') . '/' }}"><i class="fa fa-home"></i> Home</a></li>
 
-                            @if((Auth::user()->mainRole && Auth::user()->mainRole->hasPermission('MANAGE_COMPANIES')) || Auth::user()->hasCompanyPermission('VIEW_COMPANIES'))
+                            @if(Auth::user()->hasPermission('VIEW_COMPANIES'))
                                 <li>
                                     <a><i class="fa fa-building"></i> Companies <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
-                                        @if(Auth::user()->mainRole && Auth::user()->mainRole->hasPermission('MANAGE_COMPANIES'))
+                                        @if(Auth::user()->hasPermission('MANAGE_COMPANIES'))
                                             <li><a href={{ url('companies/create') }}>Add Company</a></li>
                                         @endif
                                         <li><a href="{{ url('companies') }}">View Companies</a></li>
@@ -68,7 +68,7 @@
                                 </li>
                             @endif
 
-                            @if((Auth::user()->mainRole && Auth::user()->mainRole->hasPermission('MANAGE_EVENTS')) || Auth::user()->hasEventPermission('VIEW_EVENTS') || Auth::user()->hasCompanyPermission('VIEW_EVENTS'))
+                            @if(Auth::user()->hasPermission('VIEW_EVENTS'))
                                 <li>
                                     <a><i class="fa fa-calendar"></i> Events <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">

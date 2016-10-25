@@ -54,6 +54,14 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'manage_users' => \App\Http\Middleware\VerifyManageUsersPermission::class,
         'manage_events' => \App\Http\Middleware\VerifyManageEventsPermission::class,
+        'manage_events.companies' => \App\Http\Middleware\VerifyManageCompaniesEventPermission::class,
+        'manage_events.users' => \App\Http\Middleware\VerifyManageUsersEventPermission::class,
+        'manage_events.edit' => \App\Http\Middleware\VerifyManageEventInfoPermission::class,
+        'manage_events.view_companies' => \App\Http\Middleware\VerifyViewEventCompaniesPermission::class,
+        'manage_events.view' => \App\Http\Middleware\VerifyViewEventsPermission::class,
         'manage_companies' => \App\Http\Middleware\VerifyManageCompaniesPermission::class,
+        'manage_companies.view_events' => \App\Http\Middleware\VerifyViewCompanyEventsPermission::class,
+        'manage_companies.view' => \App\Http\Middleware\VerifyViewCompaniesPermission::class,
+        'manage_companies.show' => \App\Http\Middleware\VerifyViewCompanyPermission::class,
     ];
 }

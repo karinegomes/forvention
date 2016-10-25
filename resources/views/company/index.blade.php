@@ -19,7 +19,7 @@
                     <div class="x_title">
                         <h2>View Companies</h2>
 
-                        @if(Auth::user()->mainRole && Auth::user()->mainRole->hasPermission('MANAGE_COMPANIES'))
+                        @if(Auth::user()->hasPermission('MANAGE_COMPANIES'))
                             <ul class="nav navbar-right panel_toolbox">
                                 <li><a href="{{ url('companies/create') }}"><i class="fa fa-plus"></i> Add Company</a></li>
                             </ul>
@@ -53,10 +53,11 @@
                                 <tr>
                                     <th>Name</th>
                                     <th>Users</th>
-                                    @if(Auth::user()->mainRole && Auth::user()->mainRole->hasPermission('MANAGE_COMPANIES'))
+                                    <th>Events</th>
+                                    @if(Auth::user()->hasPermission('MANAGE_COMPANIES'))
                                         <th>Admin</th>
                                     @endif
-                                    @if(Auth::user()->mainRole && Auth::user()->mainRole->hasPermission('MANAGE_COMPANIES') || Auth::user()->hasManageCompanyInfoPermission())
+                                    @if(Auth::user()->hasPermission('MANAGE_COMPANIES'))
                                         <th>Actions</th>
                                     @endif
                                 </tr>
@@ -64,30 +65,42 @@
                             <tbody>
                             @foreach($companies as $company)
                                 <tr>
+                                    {{--Name--}}
                                     <td><a href="{{ url('companies/' . $company->id) }}">{{ $company->name }}</a></td>
+
+                                    {{--Users--}}
                                     <td class="text-center">
                                         <a href="{{ url('companies/' . $company->id . '/users') }}" class="btn btn-info btn-xs"><i class="fa fa-folder"></i> View Users</a>
-                                        @if(Auth::user()->mainRole && Auth::user()->mainRole->hasPermission('MANAGE_COMPANIES') || Auth::user()->hasManageCompanyInfoPermission($company->id))
+                                        @if(Auth::user()->hasPermission('MANAGE_COMPANY_INFO', null, $company->id))
                                             <a href="{{ url('companies/' . $company->id . '/add-user') }}" class="btn btn-primary btn-xs"><i class="fa fa-plus"></i> Add User</a>
                                         @endif
                                     </td>
-                                    @if(Auth::user()->mainRole && Auth::user()->mainRole->hasPermission('MANAGE_COMPANIES'))
+
+                                    {{--Events--}}
+                                    <td class="text-center">
+                                        <a href="{{ url('companies/' . $company->id . '/events') }}" class="btn btn-info btn-xs"><i class="fa fa-folder"></i> View Events</a>
+                                    </td>
+
+                                    {{--Admin--}}
+                                    @if(Auth::user()->hasPermission('MANAGE_COMPANIES'))
                                         <td class="text-center">
                                             <a href="{{ url('companies/' . $company->id . '/admins') }}" class="btn btn-info btn-xs"><i class="fa fa-folder"></i> View Admins</a>
                                             <a href="{{ url('companies/' . $company->id . '/add-admin') }}" class="btn btn-primary btn-xs"><i class="fa fa-plus"></i> Add Admin</a>
                                         </td>
                                     @endif
-                                    @if(Auth::user()->mainRole && Auth::user()->mainRole->hasPermission('MANAGE_COMPANIES')  || Auth::user()->hasManageCompanyInfoPermission())
+
+                                    {{--Actions--}}
+                                    @if(Auth::user()->hasPermission('MANAGE_COMPANIES'))
                                         <td>
                                             <div class="text-center">
-                                                @if(Auth::user()->mainRole && Auth::user()->mainRole->hasPermission('MANAGE_COMPANIES')  || Auth::user()->hasManageCompanyInfoPermission($company->id))
+                                                @if(Auth::user()->hasPermission('MANAGE_COMPANY_INFO', null, $company->id))
                                                     <a href="{{ url('companies/' . $company->id . '/edit') }}" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a>
                                                 @endif
-                                                @if(Auth::user()->mainRole && Auth::user()->mainRole->hasPermission('MANAGE_COMPANIES'))
+                                                @if(Auth::user()->hasPermission('MANAGE_COMPANIES'))
                                                     <span class="btn btn-danger btn-xs delete-span" data-toggle="modal" data-target="#delete-modal-{{ $company->id }}"><i class="fa fa-trash-o"></i> Delete </span>
                                                 @endif
                                             </div>
-                                            @if(Auth::user()->mainRole && Auth::user()->mainRole->hasPermission('MANAGE_COMPANIES'))
+                                            @if(Auth::user()->hasPermission('MANAGE_COMPANIES'))
                                                 <div class="modal" tabindex="-1" role="dialog" aria-hidden="true" id="delete-modal-{{ $company->id }}">
                                                     <div class="modal-dialog modal-sm">
                                                         <div class="modal-content">

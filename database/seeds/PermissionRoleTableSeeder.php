@@ -182,13 +182,6 @@ class PermissionRoleTableSeeder extends Seeder
 
         DB::table('permission_role')->insert([
             'role_id' => 5,
-            'permission_id' => 9,
-            'created_at' => date("Y-m-d H:i:s"),
-            'updated_at' => date("Y-m-d H:i:s")
-        ]);
-
-        DB::table('permission_role')->insert([
-            'role_id' => 5,
             'permission_id' => 12,
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s")
@@ -197,6 +190,216 @@ class PermissionRoleTableSeeder extends Seeder
         DB::table('permission_role')->insert([
             'role_id' => 4,
             'permission_id' => 8,
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
+        ]);
+
+        DB::table('permission_role')->insert([
+            'role_id' => 1,
+            'permission_id' => 9,
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
+        ]);
+
+        DB::table('permission_role')->insert([
+            'role_id' => 2,
+            'permission_id' => 9,
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
+        ]);
+
+        DB::table('permission_role')->insert([
+            'role_id' => 3,
+            'permission_id' => 9,
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
+        ]);
+
+        DB::table('permission_role')->insert([
+            'role_id' => 1,
+            'permission_id' => 12,
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
+        ]);
+
+        DB::table('permission_role')->insert([
+            'role_id' => 2,
+            'permission_id' => 12,
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
+        ]);
+
+        DB::table('permission_role')->insert([
+            'role_id' => 3,
+            'permission_id' => 12,
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
+        ]);
+
+        DB::table('permission_role')->insert([
+            'role_id' => 4,
+            'permission_id' => 12,
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
+        ]);
+
+        DB::table('permission_role')->insert([
+            'role_id' => 1,
+            'permission_id' => 13,
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
+        ]);
+
+        DB::table('permission_role')->insert([
+            'role_id' => 2,
+            'permission_id' => 13,
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
+        ]);
+
+        DB::table('permission_role')->insert([
+            'role_id' => 3,
+            'permission_id' => 13,
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
+        ]);
+
+        DB::table('permission_role')->insert([
+            'role_id' => 1,
+            'permission_id' => 10,
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
+        ]);
+
+        DB::table('permission_role')->insert([
+            'role_id' => 2,
+            'permission_id' => 10,
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
+        ]);
+
+        DB::table('permission_role')->insert([
+            'role_id' => 3,
+            'permission_id' => 10,
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
+        ]);
+
+        DB::table('permission_role')->insert([
+            'role_id' => 4,
+            'permission_id' => 10,
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
+        ]);
+
+        DB::table('permission_role')->insert([
+            'role_id' => 1,
+            'permission_id' => 14,
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
+        ]);
+
+        DB::table('permission_role')->insert([
+            'role_id' => 2,
+            'permission_id' => 14,
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
+        ]);
+
+        DB::table('permission_role')->insert([
+            'role_id' => 3,
+            'permission_id' => 14,
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
+        ]);
+
+        DB::table('permission_role')->insert([
+            'role_id' => 4,
+            'permission_id' => 14,
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
+        ]);
+
+        DB::table('permission_role')->insert([
+            'role_id' => 5,
+            'permission_id' => 14,
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
+        ]);
+
+        DB::table('permission_role')->insert([
+            'role_id' => 6,
+            'permission_id' => 14,
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
+        ]);
+
+        DB::table('permission_role')->insert([
+            'role_id' => 1,
+            'permission_id' => 15,
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
+        ]);
+
+        DB::table('permission_role')->insert([
+            'role_id' => 2,
+            'permission_id' => 15,
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
+        ]);
+
+        DB::table('permission_role')->insert([
+            'role_id' => 3,
+            'permission_id' => 15,
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
+        ]);
+
+        DB::table('permission_role')->insert([
+            'role_id' => 4,
+            'permission_id' => 15,
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
+        ]);
+
+        DB::table('permission_role')->insert([
+            'role_id' => 5,
+            'permission_id' => 15,
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
+        ]);
+
+        DB::table('permission_role')->insert([
+            'role_id' => 6,
+            'permission_id' => 15,
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
+        ]);
+
+        DB::table('permission_role')->insert([
+            'role_id' => 1,
+            'permission_id' => 11,
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
+        ]);
+
+        DB::table('permission_role')->insert([
+            'role_id' => 2,
+            'permission_id' => 11,
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
+        ]);
+
+        DB::table('permission_role')->insert([
+            'role_id' => 3,
+            'permission_id' => 11,
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
+        ]);
+
+        DB::table('permission_role')->insert([
+            'role_id' => 4,
+            'permission_id' => 11,
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s")
         ]);

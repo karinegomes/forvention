@@ -20,28 +20,39 @@ use Illuminate\Support\Facades\DB;
 class EventController extends Controller {
 
     public function __construct() {
-        $this->middleware('manage_events');
+        $this->middleware('manage_events', ['only' => ['create', 'store', 'show', 'destroy', 'addAdminView', 'viewAdmins']]);
+        $this->middleware('manage_events.companies', ['only' => ['addCompanyView', 'addCompany', 'deleteCompany']]);
+        $this->middleware('manage_events.users', ['only' => ['addUserView', 'addUser', 'viewUsers', 'deleteUser']]);
+        $this->middleware('manage_events.edit', ['only' => ['edit', 'update']]);
+        $this->middleware('manage_events.view_companies', ['only' => ['viewCompanies']]);
+        $this->middleware('manage_events.view', ['only' => ['index']]);
     }
 
     public function index() {
 
-        if(Auth::user()->isVisitor())
-            $events = Auth::user()->events;
-        elseif(Auth::user()->isPresentor()) {
-            $companies = Auth::user()->companies;
-            $events = [];
-
-            foreach($companies as $company) {
-                $companyEvents = $company->events;
-
-                foreach($companyEvents as $event) {
-                    if(!Utils::in_array_field($event->id, 'id', $events))
-                        array_push($events, $event);
-                }
-            }
-        }
-        else
+        if(Auth::user()->mainRole && Auth::user()->mainRole->constant_name == 'SUPER_ADMIN') {
             $events = Event::all();
+        }
+        else {
+            $events = array();
+
+            if(Auth::user()->events) {
+                $events = Auth::user()->events->unique('id')->values()->all();
+            }
+
+            /*if(Auth::user()->companies) {
+                $companies = Auth::user()->companies;
+
+                foreach($companies as $company) {
+                    $companyEvents = $company->events;
+
+                    foreach($companyEvents as $event) {
+                        if(!Utils::in_array_field($event->id, 'id', $events))
+                            array_push($events, $event);
+                    }
+                }
+            }*/
+        }
 
         return view('event.index')->with('events', $events);
 
@@ -60,10 +71,19 @@ class EventController extends Controller {
         $request['end'] = $end->format('H:i');
 
         try {
-            Event::create($request->except('_token', 'edit'));
+            $event = Event::create($request->except('_token', 'edit'));
+
+            DB::table('event_user')->insert([
+                'user_id' => Auth::user()->id,
+                'event_id' => $event->id,
+                'role_id' => Auth::user()->role_id,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s')
+            ]);
         }
         catch(Exception $e) {
             $error = Config::get('constants.ERROR_MESSAGE');
+            //$error = $e->getMessage();
 
             return back()->withInput($request->except('_token'))->with('error', $error);
         }
@@ -175,9 +195,11 @@ class EventController extends Controller {
 
     public function viewUsers(Event $event) {
 
-        $users = $event->users;
+        $role = Role::where('constant_name', 'VISITOR')->first();
 
-        return view('event.user.index')->with('event', $event)->with('users', $users);
+        $users = $event->users()->wherePivot('role_id', $role->id)->get();
+
+        return view('event.user.index')->with('event', $event)->with('users', $users)->with('roleName', $role->name);
 
     }
 
@@ -271,6 +293,24 @@ class EventController extends Controller {
         $message = 'Company ' . $company->name . ' was successfully removed from the event ' . $event->title . '.';
 
         return back()->with('message', $message);
+
+    }
+
+    public function addAdminView(Event $event) {
+
+        $roles = Role::where('constant_name', 'EVENT_ADMIN')->get();
+
+        return view('event.admin.add')->with('event', $event)->with('roles', $roles);
+
+    }
+
+    public function viewAdmins(Event $event) {
+
+        $role = Role::where('constant_name', 'EVENT_ADMIN')->first();
+
+        $users = $event->users()->wherePivot('role_id', $role->id)->get();
+
+        return view('event.admin.index')->with('event', $event)->with('users', $users)->with('roleName', $role->name);
 
     }
 

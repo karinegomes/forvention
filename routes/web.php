@@ -26,6 +26,7 @@ $this->group(['middleware' => ['auth']], function() {
     $this->delete('companies/{company}/user/{user}/role/{role}/delete', ['as' => 'company.delete_users', 'uses' => 'CompanyController@deleteUser']);
     $this->get('companies/{company}/add-admin', 'CompanyController@addAdminView');
     $this->get('companies/{company}/admins', 'CompanyController@viewAdmins');
+    $this->get('companies/{company}/events', 'CompanyController@viewEvents');
 
     // Events
     $this->resource('events', 'EventController');
@@ -36,7 +37,9 @@ $this->group(['middleware' => ['auth']], function() {
     $this->get('events/{event}/add-company', 'EventController@addCompanyView');
     $this->post('events/{event}/add-company', 'EventController@addCompany');
     $this->get('events/{event}/companies', ['as' => 'events.companies', 'uses' => 'EventController@viewCompanies']);
-    $this->delete('events/{event}/company/{company}/delete', 'EventController@deleteCompany');
+    $this->delete('events/{event}/company/{company}/delete', ['as' => 'events.delete_company', 'uses' => 'EventController@deleteCompany']);
+    $this->get('events/{event}/add-admin', 'EventController@addAdminView');
+    $this->get('events/{event}/admins', 'EventController@viewAdmins');
 
     // Users
     $this->resource('users', 'UserController');
@@ -47,7 +50,9 @@ $this->group(['middleware' => ['auth']], function() {
     $this->get('test', function() {
         $user = Auth::user();
 
-        echo json_encode($user->hasManageCompanyInfoPermission(10));
+        echo json_encode(Auth::user()->hasPermission('MANAGE_COMPANIES_EVENT', 12));
+
+        //echo json_encode($user->eventRoles);
     });
 });
 

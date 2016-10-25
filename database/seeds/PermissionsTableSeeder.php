@@ -95,5 +95,26 @@ class PermissionsTableSeeder extends Seeder
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s")
         ]);
+
+        DB::table('permissions')->insert([
+            'name' => 'Manage companies in event',
+            'constant_name' => 'MANAGE_COMPANIES_EVENT',
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
+        ]);
+
+        DB::table('permissions')->insert([
+            'name' => 'View companies in event',
+            'constant_name' => 'VIEW_EVENT_COMPANIES',
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
+        ]);
+
+        DB::table('permissions')->insert([
+            'name' => 'View events in company',
+            'constant_name' => 'VIEW_COMPANY_EVENTS',
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
+        ]);
     }
 }

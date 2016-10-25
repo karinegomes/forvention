@@ -12,7 +12,7 @@
                 <div class="title_left">
                     <h3>Events</h3>
                 </div>
-                @include('event.include.breadcrumb', ['title' => 'Add User'])
+                @include('event.include.breadcrumb', ['title' => 'Add Admin'])
             </div>
 
             <div class="clearfix"></div>
@@ -20,7 +20,7 @@
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="x_panel">
                         <div class="x_title">
-                            <h2>Add User to Event {{ $event->title }}</h2>
+                            <h2>Add Admin to Event {{ $event->title }}</h2>
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
@@ -50,8 +50,7 @@
                                         <select name="role" id="role" class="form-control">
                                             <option value="">Select</option>
                                             @foreach($roles as $role)
-                                                <option value="{{ $role->id }}"
-                                                        {{ old('role') == $role->id ? 'selected' : '' }}>
+                                                <option value="{{ $role->id }}" {{ old('role') == $role->id ? 'selected' : '' }}>
                                                     {{ $role->name }}
                                                 </option>
                                             @endforeach

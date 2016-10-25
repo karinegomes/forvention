@@ -42,7 +42,7 @@ class User extends Authenticatable
     }
 
     public function eventRoles() {
-        return $this->belongsToMany('App\Role', 'event_user');
+        return $this->belongsToMany('App\Role', 'event_user')->withPivot('event_id');
     }
 
     public function roleName($columnName, $key, $roles) {
@@ -185,6 +185,150 @@ class User extends Authenticatable
 
         return $exists;
 
+    }
+
+    public function hasEditUserPermission(User $user) {
+
+        // The user can't edit a superadmin or event creator
+        if($user->mainRole && in_array($user->mainRole->constant_name, ['SUPER_ADMIN', 'EVENT_CREATOR'])) {
+            return false;
+        }
+
+        $userEvents = $user->events;
+        $events = $this->events;
+
+        foreach($userEvents as $userEvent) {
+            foreach($events as $event) {
+                if($userEvent->id == $event->id && $this->hasEventPermission('MANAGE_USERS_EVENT', $event->id)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+
+    }
+
+    public function hasPermission($permission, $eventId = null, $companyId = null) {
+
+        $user = Auth::user();
+
+        if($user->mainRole) {
+            if($user->mainRole->hasPermission($permission)) {
+                return true;
+            }
+        }
+        else {
+            if(isset($eventId)) {
+                $exists = Auth::user()->events()->where('event_id', $eventId)->exists();
+
+                if(!$exists) {
+                    // Check if the user is associated with a company that takes part in the event
+                    $companies = Auth::user()->companies;
+
+                    foreach($companies as $company) {
+                        $exists = $company->events()->where('event_id', $eventId)->exists();
+
+                        if($exists) break;
+                    }
+
+                    if(!$exists) return false;
+                }
+            }
+
+            if(isset($companyId)) {
+                $exists = Auth::user()->companies()->where('company_id', $companyId)->exists();
+
+                if(!$exists) {
+                    // Check if the user is associated with a company that takes part in the event
+                    $events = Auth::user()->events;
+
+                    foreach($events as $event) {
+                        $exists = $event->companies()->where('company_id', $companyId)->exists();
+
+                        if($exists) break;
+                    }
+
+                    if(!$exists) return false;
+                }
+            }
+
+            if($user->eventRoles) {
+
+                if(isset($eventId)) {
+                    $role = $user->eventRoles()->where('event_id', $eventId)->first();
+
+                    if($role)
+                        return $role->hasPermission($permission);
+                    else
+                        return false;
+                }
+                else {
+                    foreach($user->eventRoles as $eventRole) {
+                        if($eventRole->hasPermission($permission)) {
+                            return true;
+                        }
+                    }
+                }
+            }
+
+            if($user->companyRoles) {
+                if(isset($companyId)) {
+                    $role = $user->companyRoles()->where('company_id', $companyId)->get()->sortBy('id')->first();
+
+                    if($role)
+                        return $role->hasPermission($permission);
+                }
+                else {
+                    foreach($user->companyRoles as $companyRole) {
+                        if($companyRole->hasPermission($permission)) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+
+        return false;
+
+    }
+
+    public function getHighestRole() {
+
+        $role = null;
+
+        if($this->mainRole) {
+            return $this->mainRole;
+        }
+        else {
+            if($this->eventRoles) {
+                foreach($this->eventRoles as $eventRole) {
+                    if($role) {
+                        if($eventRole->id < $role->id) {
+                            $role = $eventRole;
+                        }
+                    }
+                    else {
+                        $role = $eventRole;
+                    }
+                }
+            }
+
+            if($this->companyRoles) {
+                foreach($this->companyRoles as $companyRole) {
+                    if($role) {
+                        if($companyRole->id < $role->id) {
+                            $role = $companyRole;
+                        }
+                    }
+                    else {
+                        $role = $companyRole;
+                    }
+                }
+            }
+        }
+
+        return $role;
     }
 
 }

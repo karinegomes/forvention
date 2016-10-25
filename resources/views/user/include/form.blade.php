@@ -50,25 +50,27 @@
         </div>
     </div>
 
-    <div class="form-group">
-        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="super_admin">
-            Super admin
-        </label>
-        <div class="col-md-6 col-sm-6 col-xs-12">
-            <input type="checkbox" id="super_admin" name="super_admin" {{ old('super_admin') == 'on' ? 'checked' : (isset($roleName) && $roleName == 'SUPER_ADMIN' ? 'checked' : '') }}>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="event_creator">
-            Event creator
-        </label>
-        <div class="col-md-6 col-sm-6 col-xs-12">
-            <div class="icheckbox">
-                <input type="checkbox" id="event_creator" name="event_creator" {{ old('event_creator') == 'on' ? 'checked' : (isset($roleName) && $roleName == 'EVENT_CREATOR' ? 'checked' : '') }}>
+    @if(isset($user) && isset($user->mainRole) && in_array($user->mainRole->constant_name, ['SUPER_ADMIN', 'EVENT_CREATOR']))
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="super_admin">
+                Super admin
+            </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <input type="checkbox" id="super_admin" name="super_admin" {{ old('super_admin') == 'on' ? 'checked' : (isset($roleName) && $roleName == 'SUPER_ADMIN' ? 'checked' : '') }}>
             </div>
         </div>
-    </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="event_creator">
+                Event creator
+            </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="icheckbox">
+                    <input type="checkbox" id="event_creator" name="event_creator" {{ old('event_creator') == 'on' ? 'checked' : (isset($roleName) && $roleName == 'EVENT_CREATOR' ? 'checked' : '') }}>
+                </div>
+            </div>
+        </div>
+    @endif
 </div>
 
 <div class="clearfix"></div>

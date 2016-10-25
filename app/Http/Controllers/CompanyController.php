@@ -18,16 +18,21 @@ use Illuminate\Support\Facades\DB;
 class CompanyController extends Controller {
 
     public function __construct() {
-        $this->middleware('manage_companies');
+        $this->middleware('manage_companies', ['except' => ['viewEvents', 'index']]);
+        $this->middleware('manage_companies.view_events', ['only' => ['viewEvents']]);
+        $this->middleware('manage_companies.view', ['only' => ['index']]);
+        $this->middleware('manage_companies.show', ['only' => ['show', 'viewUsers']]);
     }
 
     public function index() {
 
-        if(Auth::user()->isPresentor()) {
-            $companies = Auth::user()->companies->unique('id')->values()->all();
-        }
-        else {
+        $companies = [];
+
+        if(Auth::user()->mainRole && Auth::user()->mainRole->constant_name == 'SUPER_ADMIN') {
             $companies = Company::all();
+        }
+        else if(Auth::user()->companies){
+            $companies = Auth::user()->companies->unique('id')->values()->all();
         }
 
         return view('company.index')->with('companies', $companies);
@@ -45,7 +50,15 @@ class CompanyController extends Controller {
         // TODO: Store logo
         // TODO: Change logo path
 
-        Company::create($request->except('_token', 'edit'));
+        $company = Company::create($request->except('_token', 'edit'));
+
+        DB::table('company_user')->insert([
+            'user_id' => Auth::user()->id,
+            'company_id' => $company->id,
+            'role_id' => Auth::user()->getHighestRole()->id,
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s')
+        ]);
 
         $message = 'Company <strong>' . $request->name . '</strong> was successfully created.';
 
@@ -190,6 +203,14 @@ class CompanyController extends Controller {
         $users = $company->users()->wherePivot('role_id', $role->id)->get();
 
         return view('company.admin.index')->with('company', $company)->with('users', $users)->with('roleName', $role->name);
+
+    }
+
+    public function viewEvents(Company $company) {
+
+        $events = $company->events;
+
+        return view('company.event.index')->with('company', $company)->with('events', $events);
 
     }
 

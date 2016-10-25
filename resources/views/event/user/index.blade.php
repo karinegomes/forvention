@@ -64,24 +64,25 @@
                                 <tr>
                                     <td>{{ $user->name }}</td>
                                     <td>{{ $user->email }}</td>
-                                    <td>{{ $user->roleName('event_id', $event->id, $user->eventRoles()) }}</td>
+                                    <td>{{ $roleName }}</td>
                                     <td>
-                                        <div class="text-center">
-                                            <a href="{{ url('users/' . $user->id . '/edit') }}"
-                                               class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a>
-                                            <span class="btn btn-danger btn-xs delete-span" data-toggle="modal"
-                                                  data-target="#delete-modal-{{ $user->id }}">
-                                                <i class="fa fa-trash-o"></i> Delete
-                                            </span>
-                                        </div>
-                                        @include('include.modal', [
-                                            'id' => $user->id,
-                                            'deleteTitle' => 'Delete ' . $user->name . ' from ' . $event->title,
-                                            'deleteMessage' => 'Are you sure you want to remove ' . $user->name .
-                                                ' from ' . $event->title . '?',
-                                            'url' => 'events/' . $event->id . '/user/' . $user->id . '/role/' .
-                                                $user->role('event_id', $event->id, $user->eventRoles())->id . '/delete'
-                                        ])
+                                        @if(Auth::user()->hasEditUserPermission($user))
+                                            <div class="text-center">
+                                                <a href="{{ url('users/' . $user->id . '/edit') }}"
+                                                   class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a>
+                                                <span class="btn btn-danger btn-xs delete-span" data-toggle="modal"
+                                                      data-target="#delete-modal-{{ $user->id }}">
+                                                    <i class="fa fa-trash-o"></i> Delete
+                                                </span>
+                                            </div>
+                                            @include('include.modal', [
+                                                'id' => $user->id,
+                                                'deleteTitle' => 'Delete ' . $user->name . ' from ' . $event->title,
+                                                'deleteMessage' => 'Are you sure you want to remove ' . $user->name .
+                                                    ' from ' . $event->title . '?',
+                                                'url' => 'events/' . $event->id . '/user/' . $user->id . '/role/' . $user->pivot['role_id'] . '/delete'
+                                            ])
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach
