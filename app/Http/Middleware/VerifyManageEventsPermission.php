@@ -30,6 +30,10 @@ class VerifyManageEventsPermission
                     return redirect('403');
                 }
             }
+
+            else {
+                return redirect('403');
+            }
         }
 
         return $next($request);

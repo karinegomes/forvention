@@ -164,4 +164,27 @@ class User extends Authenticatable
         return $this->companyRoles()->where('constant_name', 'PRESENTOR')->exists();
     }
 
+    public function hasManageCompanyInfoPermission($companyId = null) {
+
+        $permission = Permission::where('constant_name', 'MANAGE_COMPANY_INFO')->first();
+        $roles = $permission->roles;
+
+        $exists = false;
+
+        foreach($roles as $role) {
+            $companies = $this->companies();
+
+            if(isset($companyId)) {
+                $companies = $companies->where('companies.id', $companyId);
+            }
+
+            $exists = $companies->where('role_id', $role->id)->exists();
+
+            if($exists) break;
+        }
+
+        return $exists;
+
+    }
+
 }

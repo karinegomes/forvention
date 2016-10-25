@@ -20,11 +20,12 @@ $this->group(['middleware' => ['auth']], function() {
 
     // Companies
     $this->resource('companies', 'CompanyController');
-    $this->get('companies/{company}/add-user', 'CompanyController@addUserView');
-    $this->post('companies/{company}/add-user', 'CompanyController@addUser');
+    $this->get('companies/{company}/add-user', ['as' => 'company.add_user_view', 'uses' => 'CompanyController@addUserView']);
+    $this->post('companies/{company}/add-user', ['as' => 'company.add_user', 'uses' => 'CompanyController@addUser']);
     $this->get('companies/{company}/users', ['as' => 'companies.users', 'uses' => 'CompanyController@viewUsers']);
-    $this->delete('companies/{company}/user/{user}/role/{role}/delete', 'CompanyController@deleteUser');
+    $this->delete('companies/{company}/user/{user}/role/{role}/delete', ['as' => 'company.delete_users', 'uses' => 'CompanyController@deleteUser']);
     $this->get('companies/{company}/add-admin', 'CompanyController@addAdminView');
+    $this->get('companies/{company}/admins', 'CompanyController@viewAdmins');
 
     // Events
     $this->resource('events', 'EventController');
@@ -44,7 +45,9 @@ $this->group(['middleware' => ['auth']], function() {
     $this->get('user-autocomplete', 'UserController@userAutocomplete');
 
     $this->get('test', function() {
-        var_dump(Auth::user()->mainRole ? Auth::user()->mainRole->constant_name : 'null');
+        $user = Auth::user();
+
+        echo json_encode($user->hasManageCompanyInfoPermission(10));
     });
 });
 

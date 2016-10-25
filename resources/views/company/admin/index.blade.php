@@ -9,7 +9,7 @@
             <div class="title_left">
                 <h3>Companies</h3>
             </div>
-            @include('company.include.breadcrumb', ['title' => 'View Users'])
+            @include('company.include.breadcrumb', ['title' => 'View Admins'])
         </div>
 
         <div class="clearfix"></div>
@@ -17,13 +17,13 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>Company {{ $company->name }} - View Users</h2>
+                        <h2>Company {{ $company->name }} - View Admins</h2>
 
                         @if(Auth::user()->mainRole && Auth::user()->mainRole->hasPermission('MANAGE_COMPANIES'))
                             <ul class="nav navbar-right panel_toolbox">
                                 <li>
                                     <a href="{{ url('companies/' . $company->id . '/add-user') }}">
-                                        <i class="fa fa-plus"></i> Add User
+                                        <i class="fa fa-plus"></i> Add Admin
                                     </a>
                                 </li>
                             </ul>
@@ -58,9 +58,7 @@
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Role</th>
-                                @if(Auth::user()->mainRole && Auth::user()->mainRole->hasPermission('MANAGE_COMPANIES') || Auth::user()->hasManageCompanyInfoPermission())
-                                    <th>Actions</th>
-                                @endif
+                                <th>Actions</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -69,21 +67,20 @@
                                     <td>{{ $user->name }}</td>
                                     <td>{{ $user->email }}</td>
                                     <td>{{ $roleName }}</td>
-                                    @if(Auth::user()->mainRole && Auth::user()->mainRole->hasPermission('MANAGE_COMPANIES') || Auth::user()->hasManageCompanyInfoPermission($company->id))
-                                        <td>
-                                            <div class="text-center">
-                                                <span class="btn btn-danger btn-xs delete-span" data-toggle="modal" data-target="#delete-modal-{{ $user->id }}">
-                                                    <i class="fa fa-trash-o"></i> Delete
-                                                </span>
-                                            </div>
-                                            @include('include.modal', [
-                                                'id' => $user->id,
-                                                'deleteTitle' => 'Delete ' . $user->name . ' from ' . $company->name,
-                                                'deleteMessage' => 'Are you sure you want to remove ' . $user->name . ' from ' . $company->name . '?',
-                                                'url' => 'companies/' . $company->id . '/user/' . $user->id . '/role/' . $user->pivot['role_id'] . '/delete'
-                                            ])
-                                        </td>
-                                    @endif
+                                    <td>
+                                        <div class="text-center">
+                                            <span class="btn btn-danger btn-xs delete-span" data-toggle="modal"
+                                                  data-target="#delete-modal-{{ $user->id }}">
+                                                <i class="fa fa-trash-o"></i> Delete
+                                            </span>
+                                        </div>
+                                        @include('include.modal', [
+                                            'id' => $user->id,
+                                            'deleteTitle' => 'Delete ' . $user->name . ' from ' . $company->name,
+                                            'deleteMessage' => 'Are you sure you want to remove ' . $user->name . ' from ' . $company->name . '?',
+                                            'url' => 'companies/' . $company->id . '/user/' . $user->id . '/role/' . $user->pivot['role_id'] . '/delete'
+                                        ])
+                                    </td>
                                 </tr>
                             @endforeach
                             </tbody>

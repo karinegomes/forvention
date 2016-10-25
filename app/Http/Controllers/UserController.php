@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Config;
 class UserController extends Controller {
 
     public function __construct() {
-        $this->middleware('manage_users');
+        $this->middleware('manage_users', ['except' => ['userAutocomplete']]);
     }
 
     public function index() {

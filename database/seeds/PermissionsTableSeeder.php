@@ -62,8 +62,8 @@ class PermissionsTableSeeder extends Seeder
         ]);
 
         DB::table('permissions')->insert([
-            'name' => 'Manage presentors in event',
-            'constant_name' => 'MANAGE_PRESENTORS_EVENT',
+            'name' => 'Manage company info',
+            'constant_name' => 'MANAGE_COMPANY_INFO',
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s")
         ]);

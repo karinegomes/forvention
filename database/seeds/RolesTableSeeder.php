@@ -34,8 +34,8 @@ class RolesTableSeeder extends Seeder
         ]);
 
         DB::table('roles')->insert([
-            'name' => 'Company',
-            'constant_name' => 'COMPANY',
+            'name' => 'Company admin',
+            'constant_name' => 'COMPANY_ADMIN',
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s")
         ]);

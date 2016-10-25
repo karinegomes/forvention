@@ -29,6 +29,13 @@ class VerifyManageCompaniesPermission
                     return redirect('403');
                 }
             }
+            else if(in_array($request->route()->getName(),
+                ['company.delete_users', 'company.add_user_view', 'company.add_user', 'companies.edit', 'companies.update'])) {
+
+                if(!Auth::user()->hasManageCompanyInfoPermission($request->route('company')->id)) {
+                    return redirect('403');
+                }
+            }
             else {
                 return redirect('403');
             }

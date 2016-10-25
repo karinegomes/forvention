@@ -24,7 +24,7 @@ class CompanyController extends Controller {
     public function index() {
 
         if(Auth::user()->isPresentor()) {
-            $companies = Auth::user()->companies;
+            $companies = Auth::user()->companies->unique('id')->values()->all();
         }
         else {
             $companies = Company::all();
@@ -146,9 +146,11 @@ class CompanyController extends Controller {
 
     public function viewUsers(Company $company) {
 
-        $users = $company->users;
+        $role = Role::where('constant_name', 'PRESENTOR')->first();
 
-        return view('company.user.index')->with('company', $company)->with('users', $users);
+        $users = $company->users()->wherePivot('role_id', $role->id)->get();
+
+        return view('company.user.index')->with('company', $company)->with('users', $users)->with('roleName', $role->name);
 
     }
 
@@ -175,9 +177,19 @@ class CompanyController extends Controller {
 
     public function addAdminView(Company $company) {
 
-        $roles = Role::where('constant_name', 'COMPANY')->get();
+        $roles = Role::where('constant_name', 'COMPANY_ADMIN')->get();
 
         return view('company.admin.add')->with('company', $company)->with('roles', $roles);
+
+    }
+
+    public function viewAdmins(Company $company) {
+
+        $role = Role::where('constant_name', 'COMPANY_ADMIN')->first();
+
+        $users = $company->users()->wherePivot('role_id', $role->id)->get();
+
+        return view('company.admin.index')->with('company', $company)->with('users', $users)->with('roleName', $role->name);
 
     }
 
