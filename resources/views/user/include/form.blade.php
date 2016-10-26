@@ -50,7 +50,7 @@
         </div>
     </div>
 
-    @if(isset($user) && isset($user->mainRole) && in_array($user->mainRole->constant_name, ['SUPER_ADMIN', 'EVENT_CREATOR']))
+    @if(($edit && isset($user) && isset($user->mainRole) && $user->mainRole->constant_name == 'SUPER_ADMIN')  || Auth::user()->hasPermission('MANAGE_USERS'))
         <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="super_admin">
                 Super admin

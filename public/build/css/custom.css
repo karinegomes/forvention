@@ -105,8 +105,8 @@
   margin-top: 0;
   text-shadow: 1px 1px #000; }
 
-.menu_section > ul {
-  margin-top: 10px; }
+/*.menu_section > ul {
+  margin-top: 10px; }*/
 
 .profile_pic {
   width: 35%;
@@ -122,10 +122,15 @@
   border: 1px solid rgba(52, 73, 94, 0.44);
   padding: 4px; }
 
-.profile_info {
+/*.profile_info {
   padding: 25px 10px 10px;
   width: 65%;
-  float: left; }
+  float: left; }*/
+
+.profile_info {
+    padding: 20px;
+    width: 100%;
+}
 
 .profile_info span {
   font-size: 13px;

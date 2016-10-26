@@ -214,7 +214,22 @@ class User extends Authenticatable
         $user = Auth::user();
 
         if($user->mainRole) {
-            if($user->mainRole->hasPermission($permission)) {
+            if(isset($companyId)) {
+                // Event creator can see only the companies he created
+                if($user->mainRole->constant_name == 'EVENT_CREATOR') {
+                    $exists = Auth::user()->companies()->where('company_id', $companyId)->exists();
+
+                    return $exists;
+                }
+                // Super admin can see/edit all companies
+                else if($user->mainRole->constant_name == 'SUPER_ADMIN') {
+                    return true;
+                }
+            }
+            else if(isset($eventId)) {
+                return true; // event creator and superadmin can see/edit all events
+            }
+            else if($user->mainRole->hasPermission($permission)) {
                 return true;
             }
         }

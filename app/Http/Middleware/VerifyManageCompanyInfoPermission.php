@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 
-class VerifyManageCompaniesPermission
+class VerifyManageCompanyInfoPermission
 {
     /**
      * Handle an incoming request.
@@ -16,7 +16,7 @@ class VerifyManageCompaniesPermission
      */
     public function handle($request, Closure $next) {
 
-        if(!Auth::user()->hasPermission('MANAGE_COMPANIES')) {
+        if(!Auth::user()->hasPermission('MANAGE_COMPANY_INFO', null, $request->route('company')->id)) {
             return redirect('403');
         }
 

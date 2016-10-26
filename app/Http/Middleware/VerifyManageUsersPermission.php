@@ -16,8 +16,6 @@ class VerifyManageUsersPermission
      */
     public function handle($request, Closure $next) {
 
-        echo 'teste';
-
         // Check if the user doesn't have permission to manage users
         if(!Auth::user()->mainRole || !Auth::user()->mainRole->hasPermission('MANAGE_USERS')) {
             // Check if it's edit/update rote

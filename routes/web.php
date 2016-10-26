@@ -50,7 +50,7 @@ $this->group(['middleware' => ['auth']], function() {
     $this->get('test', function() {
         $user = Auth::user();
 
-        echo json_encode(Auth::user()->hasPermission('MANAGE_COMPANIES_EVENT', 12));
+        echo json_encode(Auth::user()->hasPermission('MANAGE_COMPANIES', null, 11));
 
         //echo json_encode($user->eventRoles);
     });

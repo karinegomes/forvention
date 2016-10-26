@@ -18,10 +18,12 @@ use Illuminate\Support\Facades\DB;
 class CompanyController extends Controller {
 
     public function __construct() {
-        $this->middleware('manage_companies', ['except' => ['viewEvents', 'index']]);
+        $this->middleware('manage_companies', ['only' => ['create', 'store']]);
         $this->middleware('manage_companies.view_events', ['only' => ['viewEvents']]);
         $this->middleware('manage_companies.view', ['only' => ['index']]);
         $this->middleware('manage_companies.show', ['only' => ['show', 'viewUsers']]);
+        $this->middleware('manage_companies.edit', ['only' => ['edit', 'update', 'addAdminView', 'viewAdmins',
+            'destroy', 'addUserView', 'addUser', 'deleteUser']]);
     }
 
     public function index() {

@@ -22,7 +22,7 @@
                         @if(Auth::user()->mainRole && Auth::user()->mainRole->hasPermission('MANAGE_COMPANIES'))
                             <ul class="nav navbar-right panel_toolbox">
                                 <li>
-                                    <a href="{{ url('companies/' . $company->id . '/add-user') }}">
+                                    <a href="{{ url('companies/' . $company->id . '/add-admin') }}">
                                         <i class="fa fa-plus"></i> Add Admin
                                     </a>
                                 </li>

@@ -63,5 +63,6 @@ class Kernel extends HttpKernel
         'manage_companies.view_events' => \App\Http\Middleware\VerifyViewCompanyEventsPermission::class,
         'manage_companies.view' => \App\Http\Middleware\VerifyViewCompaniesPermission::class,
         'manage_companies.show' => \App\Http\Middleware\VerifyViewCompanyPermission::class,
+        'manage_companies.edit' => \App\Http\Middleware\VerifyManageCompanyInfoPermission::class,
     ];
 }
