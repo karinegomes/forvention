@@ -52,6 +52,7 @@
                             <thead>
                                 <tr>
                                     <th>Name</th>
+                                    <th>Media</th>
                                     <th>Users</th>
                                     <th>Events</th>
                                     @if(Auth::user()->hasPermission('MANAGE_COMPANIES'))
@@ -67,6 +68,16 @@
                                 <tr>
                                     {{--Name--}}
                                     <td><a href="{{ url('companies/' . $company->id) }}">{{ $company->name }}</a></td>
+
+                                    {{--Media--}}
+                                    <td class="text-center">
+                                        <a href="{{ url('companies/' . $company->id . '/medias') }}" class="btn btn-info btn-xs"><i class="fa fa-folder"></i> View Medias</a>
+                                        @if(Auth::user()->hasPermission('MANAGE_COMPANY_INFO', null, $company->id))
+                                            <a href="{{ url('companies/' . $company->id . '/medias/create') }}" class="btn btn-primary btn-xs">
+                                                <i class="fa fa-plus"></i> Add Media
+                                            </a>
+                                        @endif
+                                    </td>
 
                                     {{--Users--}}
                                     <td class="text-center">

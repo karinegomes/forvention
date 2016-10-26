@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Company;
 use App\CompanyMedia;
 use App\Http\Requests\AddUserRequest;
+use App\Http\Requests\MediaRequest;
 use App\Role;
 use App\User;
 use Exception;
@@ -24,7 +25,7 @@ class CompanyController extends Controller {
         $this->middleware('manage_companies.view', ['only' => ['index']]);
         $this->middleware('manage_companies.show', ['only' => ['show', 'viewUsers']]);
         $this->middleware('manage_companies.edit', ['only' => ['edit', 'update', 'addAdminView', 'viewAdmins',
-            'destroy', 'addUserView', 'addUser', 'deleteUser']]);
+            'destroy', 'addUserView', 'addUser', 'deleteUser', 'addMedia']]);
     }
 
     public function index() {
@@ -49,9 +50,6 @@ class CompanyController extends Controller {
     }
 
     public function store(CompanyRequest $request) {
-
-        // TODO: Store logo
-        // TODO: Change logo path
 
         try {
             $path = $request->file('logo')->store('companies');
@@ -245,6 +243,12 @@ class CompanyController extends Controller {
         $events = $company->events;
 
         return view('company.event.index')->with('company', $company)->with('events', $events);
+
+    }
+
+    public function addMedia(MediaRequest $request, Company $company) {
+
+        var_dump($request->all());
 
     }
 

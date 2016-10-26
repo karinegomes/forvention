@@ -14,7 +14,7 @@
     <!-- Font Awesome -->
     <link href="{{ asset('vendors/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
     <!-- Custom Theme Style -->
-    <link href="{{ asset('build/css/custom.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('build/css/custom.css') }}" rel="stylesheet">
     <link href="{{ asset('css/styles.css') }}" rel="stylesheet">
 
     @stack('css')

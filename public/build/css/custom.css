@@ -422,6 +422,11 @@ table.no-margin .progress {
   margin-right: -10px;
   margin-left: -10px; }
 
+.dataTables_wrapper .row {
+    margin-right: -15px;
+    margin-left: -15px;
+}
+
 .grid_slider .col-md-6 {
   padding: 0 40px; }
 
@@ -1092,11 +1097,11 @@ table.jambo_table tbody tr.selected td {
   background-color: white; }
 
 .dataTables_length {
-  width: 40%;
+  width: 60%;
   float: left; }
 
 .dataTables_filter {
-  width: 50%;
+  width: 100%;
   float: right;
   text-align: right; }
 

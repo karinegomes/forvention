@@ -27,6 +27,11 @@ $this->group(['middleware' => ['auth']], function() {
     $this->get('companies/{company}/add-admin', 'CompanyController@addAdminView');
     $this->get('companies/{company}/admins', 'CompanyController@viewAdmins');
     $this->get('companies/{company}/events', 'CompanyController@viewEvents');
+    $this->get('companies/{company}/add-media', 'CompanyController@addMediaView');
+    $this->post('companies/{company}/add-media', 'CompanyController@addMedia');
+
+    // Company Medias
+    $this->resource('companies/{company}/medias', 'CompanyMediaController');
 
     // Events
     $this->resource('events', 'EventController');
