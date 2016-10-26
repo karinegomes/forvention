@@ -10,7 +10,7 @@
             File title <span class="required">*</span>
         </label>
         <div class="col-md-9 col-sm-9 col-xs-12">
-            <input type="text" id="title" name="title" class="form-control" value="{{ old('file_name', $edit ? $media->file_name : '') }}" {{--required--}}>
+            <input type="text" id="title" name="title" class="form-control" value="{{ old('title', $edit ? $media->title : '') }}" {{--required--}}>
         </div>
     </div>
 

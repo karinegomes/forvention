@@ -122,10 +122,9 @@ class EventController extends Controller {
 
         try {
             if($request['image'] != null) {
-                $path = $request->file('image')->store('events');
-
                 Storage::delete($imagePath);
 
+                $path = $request->file('image')->store('events');
                 $data['image'] = $path;
             }
 

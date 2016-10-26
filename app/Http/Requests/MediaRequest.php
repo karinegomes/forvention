@@ -14,7 +14,7 @@ class MediaRequest extends FormRequest {
 
         $rules = [
             'title' => 'required|max:255',
-            'file_name' => 'required|max:100|unique:company_medias',
+            'file_name' => 'required|max:100|unique:company_medias,id|regex:/^\S+$/',
             'description' => 'required|string'
         ];
 

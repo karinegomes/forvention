@@ -62,12 +62,46 @@ class CompanyMediaController extends Controller {
         return view('company_media.show')->with('company', $company)->with('media', $media);
     }
 
-    public function edit($id) {
-        //
+    public function edit(Company $company, CompanyMedia $media) {
+        return view('company_media.edit')->with('company', $company)->with('media', $media);
     }
 
-    public function update(Request $request, $id) {
-        //
+    public function update(MediaRequest $request, Company $company, CompanyMedia $media) {
+
+        $data = $request->except('_token', 'edit', 'file');
+
+        try {
+            if($request['file'] != null) {
+                $folder = 'companies/' . $company->id;
+                $fileName = $data['file_name'] . '.' . $request['file']->getClientOriginalExtension();
+
+                Storage::delete($media->path);
+
+                $path = $request->file('file')->storeAs($folder, $fileName);
+
+                $data['path'] = $path;
+            }
+            else if($data['file_name'] != $media->file_name) {
+                $fileName = str_replace($media->file_name, $data['file_name'], $media->path);
+
+                Storage::move($media->path, $fileName);
+
+                $data['path'] = $fileName;
+            }
+
+            $media->update($data);
+        }
+        catch(Exception $e) {
+            //$error = Config::get('constants.ERROR_MESSAGE');
+            $error = $e->getMessage();
+
+            return back()->withInput($request->except('_token'))->with('error', $error);
+        }
+
+        $message = 'File <strong>' . $media->title . '</strong> was successfully updated.';
+
+        return redirect('companies/' . $company->id . '/medias')->with('message', $message);
+
     }
 
     public function destroy($id) {

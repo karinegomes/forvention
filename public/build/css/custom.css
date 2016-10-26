@@ -925,6 +925,10 @@ legend {
   -moz-border-radius: 4px;
   -webkit-border-radius: 4px; }
 
+.pagination {
+    margin: 0;
+}
+
 /** Contacts **/
 /* *********  /custom accordion  **************************** */
 /* *********  dashboard widget  **************************** */
@@ -1106,7 +1110,7 @@ table.jambo_table tbody tr.selected td {
   text-align: right; }
 
 .dataTables_info {
-  width: 60%;
+  width: 100%;
   float: left; }
 
 .dataTables_paginate {

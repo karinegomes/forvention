@@ -104,10 +104,9 @@ class CompanyController extends Controller {
 
         try {
             if($request['logo'] != null) {
-                $path = $request->file('logo')->store('companies');
-                $logoPath = $company->logo;
+                Storage::delete($company->logo);
 
-                Storage::delete($logoPath);
+                $path = $request->file('logo')->store('companies');
 
                 $data['logo'] = $path;
             }
