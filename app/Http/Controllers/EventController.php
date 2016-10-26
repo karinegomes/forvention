@@ -103,6 +103,7 @@ class EventController extends Controller {
 
         $date = new DateTime($event->date);
         $event->date = $date->format('Y/m/d');
+        $event->image = Storage::url($event->image);
 
         return view('event.edit')->with('event', $event);
 
@@ -115,9 +116,23 @@ class EventController extends Controller {
 
         $request['start'] = $start->format('H:i');
         $request['end'] = $end->format('H:i');
+        $imagePath = $event->image;
 
         try {
-            $event->update($request->except('_token', 'edit'));
+            $path = $request->file('image')->store('events');
+
+            Storage::delete($imagePath);
+
+            $event->update([
+                'title' => $request['title'],
+                'description' => $request['description'],
+                'image' => $path,
+                'date' => $request['date'],
+                'start' => $request['start'],
+                'end' => $request['end'],
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s')
+            ]);
         }
         catch(Exception $e) {
             $error = Config::get('constants.ERROR_MESSAGE');

@@ -21,15 +21,21 @@ class EventRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
-    {
-        return [
+    public function rules() {
+
+        $rules = [
             'title' => 'required',
             'description' => 'required',
             'date' => 'required',
             'start' => 'required',
             'end' => 'required|after:start',
-            'image' => 'required|image',
         ];
+
+        if($this->has('edit'))
+            $rules['image'] = 'image';
+        else
+            $rules['image'] = 'required|image';
+
+        return $rules;
     }
 }
