@@ -57,7 +57,7 @@
 
                             <div class="col-md-3 col-sm-3 col-xs-3">
                                 {{--TODO: Show image--}}
-                                <img src="{{ asset('images/inbox.png') }}" class="company-logo">
+                                <img src="{{ asset($event->image) }}" class="company-logo">
                             </div>
                         </div>
                     </div>

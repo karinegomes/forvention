@@ -16,6 +16,7 @@ use App\Http\Requests\EventRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class EventController extends Controller {
 
@@ -92,6 +93,9 @@ class EventController extends Controller {
     }
 
     public function show(Event $event) {
+
+        $event->image = Storage::url($event->image);
+
         return view('event.show')->with('event', $event);
     }
 
