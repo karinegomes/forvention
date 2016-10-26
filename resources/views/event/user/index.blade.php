@@ -19,13 +19,15 @@
                     <div class="x_title">
                         <h2>Event {{ $event->title }} - View Users</h2>
 
-                        <ul class="nav navbar-right panel_toolbox">
-                            <li>
-                                <a href="{{ url('events/' . $event->id . '/add-user') }}">
-                                    <i class="fa fa-plus"></i> Add User
-                                </a>
-                            </li>
-                        </ul>
+                        @if(Auth::user()->hasPermission('MANAGE_EVENT_INFO', $event->id))
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li>
+                                    <a href="{{ url('events/' . $event->id . '/add-user') }}">
+                                        <i class="fa fa-plus"></i> Add User
+                                    </a>
+                                </li>
+                            </ul>
+                        @endif
 
                         <div class="clearfix"></div>
                     </div>
@@ -56,7 +58,9 @@
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Role</th>
-                                <th>Actions</th>
+                                @if(Auth::user()->hasPermission('MANAGE_EVENT_INFO'))
+                                    <th>Actions</th>
+                                @endif
                             </tr>
                             </thead>
                             <tbody>
@@ -65,13 +69,15 @@
                                     <td>{{ $user->name }}</td>
                                     <td>{{ $user->email }}</td>
                                     <td>{{ $roleName }}</td>
-                                    <td>
-                                        @if(Auth::user()->hasEditUserPermission($user))
+                                    @if(Auth::user()->hasPermission('MANAGE_EVENT_INFO', $event->id))
+                                        <td>
                                             <div class="text-center">
-                                                <a href="{{ url('users/' . $user->id . '/edit') }}"
-                                                   class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a>
-                                                <span class="btn btn-danger btn-xs delete-span" data-toggle="modal"
-                                                      data-target="#delete-modal-{{ $user->id }}">
+                                                @if(Auth::user()->hasPermission('MANAGE_USERS'))
+                                                    <a href="{{ url('users/' . $user->id . '/edit') }}"
+                                                       class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a>
+                                                @endif
+
+                                                <span class="btn btn-danger btn-xs delete-span" data-toggle="modal" data-target="#delete-modal-{{ $user->id }}">
                                                     <i class="fa fa-trash-o"></i> Delete
                                                 </span>
                                             </div>
@@ -82,8 +88,8 @@
                                                     ' from ' . $event->title . '?',
                                                 'url' => 'events/' . $event->id . '/user/' . $user->id . '/role/' . $user->pivot['role_id'] . '/delete'
                                             ])
-                                        @endif
-                                    </td>
+                                        </td>
+                                    @endif
                                 </tr>
                             @endforeach
                             </tbody>

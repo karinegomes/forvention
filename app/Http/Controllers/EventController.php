@@ -30,7 +30,7 @@ class EventController extends Controller {
 
     public function index() {
 
-        if(Auth::user()->mainRole && Auth::user()->mainRole->constant_name == 'SUPER_ADMIN') {
+        if(Auth::user()->mainRole && in_array(Auth::user()->mainRole->constant_name, ['SUPER_ADMIN', 'EVENT_CREATOR'])) {
             $events = Event::all();
         }
         else {

@@ -19,7 +19,7 @@
                     <div class="x_title">
                         <h2>Company {{ $company->name }} - View Admins</h2>
 
-                        @if(Auth::user()->mainRole && Auth::user()->mainRole->hasPermission('MANAGE_COMPANIES'))
+                        @if(Auth::user()->hasPermission('MANAGE_COMPANIES'))
                             <ul class="nav navbar-right panel_toolbox">
                                 <li>
                                     <a href="{{ url('companies/' . $company->id . '/add-admin') }}">
