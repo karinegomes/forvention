@@ -36,22 +36,8 @@ class EventController extends Controller {
         else {
             $events = array();
 
-            if(Auth::user()->events) {
+            if(Auth::user()->events)
                 $events = Auth::user()->events->unique('id')->values()->all();
-            }
-
-            /*if(Auth::user()->companies) {
-                $companies = Auth::user()->companies;
-
-                foreach($companies as $company) {
-                    $companyEvents = $company->events;
-
-                    foreach($companyEvents as $event) {
-                        if(!Utils::in_array_field($event->id, 'id', $events))
-                            array_push($events, $event);
-                    }
-                }
-            }*/
         }
 
         return view('event.index')->with('events', $events);
@@ -71,7 +57,18 @@ class EventController extends Controller {
         $request['end'] = $end->format('H:i');
 
         try {
-            $event = Event::create($request->except('_token', 'edit'));
+            $path = $request->file('image')->store('events');
+
+            $event = Event::create([
+                'title' => $request['title'],
+                'description' => $request['description'],
+                'image' => $path,
+                'date' => $request['date'],
+                'start' => $request['start'],
+                'end' => $request['end'],
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s')
+            ]);
 
             DB::table('event_user')->insert([
                 'user_id' => Auth::user()->id,
