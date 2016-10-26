@@ -128,6 +128,8 @@ class CompanyController extends Controller {
     public function destroy(Company $company) {
 
         try {
+            Storage::delete($company->logo);
+            Storage::deleteDirectory('companies/' . $company->id);
             $company->delete();
         }
         catch(Exception $e) {

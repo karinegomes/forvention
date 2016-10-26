@@ -149,6 +149,7 @@ class EventController extends Controller {
     public function destroy(Event $event) {
 
         try {
+            Storage::delete($event->image);
             $event->delete();
         }
         catch(Exception $e) {

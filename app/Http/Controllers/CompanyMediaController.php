@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Storage;
 class CompanyMediaController extends Controller {
 
     public function __construct() {
-        $this->middleware('manage_companies.edit', ['only' => ['create', 'store']]);
+        $this->middleware('manage_companies.edit', ['only' => ['create', 'store', 'edit', 'update', 'destroy']]);
         $this->middleware('manage_companies.view', ['only' => ['index']]);
         $this->middleware('manage_companies.show', ['only' => ['show']]);
     }
@@ -104,7 +104,23 @@ class CompanyMediaController extends Controller {
 
     }
 
-    public function destroy($id) {
-        //
+    public function destroy(Company $company, CompanyMedia $media) {
+
+        try {
+            Storage::delete($media->path);
+
+            $media->delete();
+        }
+        catch(Exception $e) {
+            $error = Config::get('constants.ERROR_MESSAGE');
+            //$error = $e->getMessage();
+
+            return redirect('companies/' . $company->id . '/medias')->with('error', $error);
+        }
+
+        $message = 'File <strong>' . $media->title . '</strong> was successfully removed.';
+
+        return redirect('companies/' . $company->id . '/medias')->with('message', $message);
+
     }
 }
