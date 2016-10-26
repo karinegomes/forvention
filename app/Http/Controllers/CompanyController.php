@@ -14,6 +14,7 @@ use App\Http\Requests\CompanyRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class CompanyController extends Controller {
 
@@ -52,15 +53,28 @@ class CompanyController extends Controller {
         // TODO: Store logo
         // TODO: Change logo path
 
-        $company = Company::create($request->except('_token', 'edit'));
+        try {
+            $path = $request->file('logo')->store('companies');
 
-        DB::table('company_user')->insert([
-            'user_id' => Auth::user()->id,
-            'company_id' => $company->id,
-            'role_id' => Auth::user()->getHighestRole()->id,
-            'created_at' => date('Y-m-d H:i:s'),
-            'updated_at' => date('Y-m-d H:i:s')
-        ]);
+            $data = $request->except('_token', 'edit');
+            $data['logo'] = $path;
+
+            $company = Company::create($data);
+
+            DB::table('company_user')->insert([
+                'user_id' => Auth::user()->id,
+                'company_id' => $company->id,
+                'role_id' => Auth::user()->getHighestRole()->id,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s')
+            ]);
+        }
+        catch(Exception $e) {
+            $error = Config::get('constants.ERROR_MESSAGE');
+            //$error = $e->getMessage();
+
+            return back()->withInput($request->except('_token'))->with('error', $error);
+        }
 
         $message = 'Company <strong>' . $request->name . '</strong> was successfully created.';
 
@@ -69,10 +83,16 @@ class CompanyController extends Controller {
     }
 
     public function show(Company $company) {
+
+        $company->logo = Storage::url($company->logo);
+
         return view('company.show')->with('company', $company);
+
     }
 
     public function edit(Company $company) {
+
+        $company->logo = Storage::url($company->logo);
 
         return view('company.edit')->with('company', $company);
 
@@ -80,15 +100,27 @@ class CompanyController extends Controller {
 
     public function update(CompanyRequest $request, Company $company) {
 
-        // TODO: Store logo
-        // TODO: Change logo path
+        $except = ['_token', 'edit', 'logo'];
 
-        $except = ['_token', 'edit'];
+        $data = $request->except($except);
 
-        if($request->logo == null)
-            array_push($except, 'logo');
+        try {
+            if($request['logo'] != null) {
+                $path = $request->file('logo')->store('companies');
+                $logoPath = $company->logo;
 
-        $company->update($request->except($except));
+                Storage::delete($logoPath);
+
+                $data['logo'] = $path;
+            }
+
+            $company->update($data);
+        }
+        catch(Exception $e) {
+            $error = Config::get('constants.ERROR_MESSAGE');
+
+            return back()->withInput($request->except('_token'))->with('error', $error);
+        }
 
         $message = 'Company <strong>' . $company->name . '</strong> was successfully updated.';
 

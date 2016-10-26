@@ -111,31 +111,32 @@ class EventController extends Controller {
 
     public function update(EventRequest $request, Event $event) {
 
-        $start = new DateTime($request['start']);
-        $end = new DateTime($request['end']);
+        $data = $request->except(['_token', 'edit', 'image']);
 
-        $request['start'] = $start->format('H:i');
-        $request['end'] = $end->format('H:i');
+        $start = new DateTime($data['start']);
+        $end = new DateTime($data['end']);
+
+        $data['start'] = $start->format('H:i');
+        $data['end'] = $end->format('H:i');
         $imagePath = $event->image;
 
         try {
-            $path = $request->file('image')->store('events');
+            if($request['image'] != null) {
+                $path = $request->file('image')->store('events');
 
-            Storage::delete($imagePath);
+                Storage::delete($imagePath);
 
-            $event->update([
-                'title' => $request['title'],
-                'description' => $request['description'],
-                'image' => $path,
-                'date' => $request['date'],
-                'start' => $request['start'],
-                'end' => $request['end'],
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s')
-            ]);
+                $data['image'] = $path;
+            }
+
+            $data['created_at'] = date('Y-m-d H:i:s');
+            $data['updated_at'] = date('Y-m-d H:i:s');
+
+            $event->update($data);
         }
         catch(Exception $e) {
-            $error = Config::get('constants.ERROR_MESSAGE');
+            //$error = Config::get('constants.ERROR_MESSAGE');
+            $error = $e->getMessage();
 
             return back()->withInput($request->except('_token'))->with('error', $error);
         }

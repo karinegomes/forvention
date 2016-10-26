@@ -35,3 +35,5 @@
     </div>
 
 @endsection
+
+@include('company.include.scripts')

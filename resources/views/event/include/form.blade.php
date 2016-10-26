@@ -66,7 +66,7 @@
 
 <div class="col-md-4 col-sm-4 col-xs-4 text-center">
     <div class="row" style="margin-bottom: 10px;">
-        {{--TODO: Load image on edit and maybe show a placeholder on create.--}}
+        {{--TODO: Show a placeholder on create.--}}
         <img src="{{ $edit ? asset($event->image) : '' }}" style="max-width: 100%;" id="image-preview">
     </div>
 
