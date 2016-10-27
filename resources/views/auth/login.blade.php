@@ -18,7 +18,7 @@
                 </div>
                 <div>
                     <button class="btn btn-default submit" type="submit">Log in</button>
-                    <a class="reset_pass" href="#">Lost your password?</a>
+                    <a href="{{ url('password/reset') }}" class="reset_pass">Lost your password?</a>
                 </div>
 
                 <div class="clearfix"></div>
@@ -33,7 +33,6 @@
 
                     <div>
                         <h1>Forvention</h1>
-                        <p>©2016 All Rights Reserved. Gentelella Alela! is a Bootstrap 3 template. Privacy and Terms</p>
                     </div>
                 </div>
             </form>

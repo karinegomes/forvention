@@ -1,70 +1,52 @@
-@extends('layouts.app')
+@extends('auth.template')
 
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Reset Password</div>
 
-                <div class="panel-body">
-                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/password/reset') }}">
-                        {{ csrf_field() }}
+    <div class="form login_form">
+        <section class="login_content">
 
-                        <input type="hidden" name="token" value="{{ $token }}">
+            <form action="{{ url('password/reset') }}" method="POST">
+                <h1>Reset password</h1>
 
-                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">E-Mail Address</label>
+                <div class="text-left">@include('include.error')</div>
 
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ $email or old('email') }}" required autofocus>
+                @if (session('status'))
+                    <div class="alert alert-success">
+                        {{ session('status') }}
+                    </div>
+                @endif
 
-                                @if ($errors->has('email'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
+                {{ csrf_field() }}
 
-                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                            <label for="password" class="col-md-4 control-label">Password</label>
+                <input type="hidden" name="token" value="{{ $token }}">
 
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control" name="password" required>
-
-                                @if ($errors->has('password'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
-                            <label for="password-confirm" class="col-md-4 control-label">Confirm Password</label>
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
-
-                                @if ($errors->has('password_confirmation'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('password_confirmation') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
-                                    Reset Password
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+                <div>
+                    <input type="email" class="form-control" name="email" placeholder="Email" required />
                 </div>
-            </div>
-        </div>
+
+                <div>
+                    <input type="password" class="form-control" name="password" placeholder="Password" required />
+                </div>
+
+                <div>
+                    <input id="password-confirm" type="password" class="form-control" name="password_confirmation"
+                           required placeholder="Confirm password" />
+                </div>
+
+                <div>
+                    <button type="submit" class="btn btn-default submit">Reset password</button>
+                </div>
+
+                <div class="clearfix"></div>
+                <br>
+
+                <div class="separator">
+                    <br>
+                    <a href="{{ url('/') }}"><h1>Forvention</h1></a>
+                </div>
+            </form>
+
+        </section>
     </div>
-</div>
+
 @endsection
