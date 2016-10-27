@@ -46,6 +46,18 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Role', 'event_user')->withPivot('event_id');
     }
 
+    public function favoriteCompanies() {
+        return $this->belongsToMany('App\Company', 'favorite_companies');
+    }
+
+    public function favoriteFiles() {
+        return $this->belongsToMany('App\CompanyMedia', 'favorite_files');
+    }
+
+    public function favoriteProducts() {
+        return $this->belongsToMany('App\Product', 'favorite_products');
+    }
+
     public function roleName($columnName, $key, $roles) {
         return $roles->where($columnName, $key)->first()->name;
     }

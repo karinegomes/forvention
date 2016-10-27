@@ -52,6 +52,7 @@
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Phone</th>
+                                <th>Favorites</th>
                                 <th>Actions</th>
                             </tr>
                             </thead>
@@ -61,6 +62,11 @@
                                     <td>{{ $user->name }}</td>
                                     <td>{{ $user->email }}</td>
                                     <td>{{ $user->phone }}</td>
+                                    <td class="text-center">
+                                        <a href="{{ url('users/' . $user->id . '/favorites/companies') }}" class="btn btn-info btn-xs"><i class="fa fa-building"></i> Companies</a>
+                                        <a href="{{ url('users/' . $user->id . '/favorites/files') }}" class="btn btn-primary btn-xs"><i class="fa fa-file-o"></i> Files</a>
+                                        <a href="{{ url('users/' . $user->id . '/favorites/products') }}" class="btn btn-success btn-xs"><i class="fa fa-inbox"></i> Products</a>
+                                    </td>
                                     <td>
                                         <div class="text-center">
                                             <a href="{{ url('users/' . $user->id . '/edit') }}" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a>

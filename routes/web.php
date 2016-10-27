@@ -51,6 +51,9 @@ $this->group(['middleware' => ['auth']], function() {
 
     // Users
     $this->resource('users', 'UserController');
+    $this->get('users/{user}/favorites/companies', 'UserController@favoriteCompanies');
+    $this->get('users/{user}/favorites/files', 'UserController@favoriteFiles');
+    $this->get('users/{user}/favorites/products', 'UserController@favoriteProducts');
 
     // Ajax
     $this->get('user-autocomplete', 'UserController@userAutocomplete');
@@ -58,9 +61,7 @@ $this->group(['middleware' => ['auth']], function() {
     $this->get('test', function() {
         $user = Auth::user();
 
-        echo Storage::url('test.jpg');
-
-        //echo json_encode($user->eventRoles);
+        echo json_encode(Auth::user()->hasPermission('VIEW_COMPANY', null, 7));
     });
 });
 

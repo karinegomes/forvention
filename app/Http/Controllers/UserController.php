@@ -116,4 +116,28 @@ class UserController extends Controller {
 
     }
 
+    public function favoriteCompanies(User $user) {
+
+        $companies = $user->favoriteCompanies;
+
+        return view('user.companies')->with('user', $user)->with('companies', $companies);
+
+    }
+
+    public function favoriteFiles(User $user) {
+
+        $files = $user->favoriteFiles;
+
+        return view('user.files')->with('user', $user)->with('files', $files);
+
+    }
+
+    public function favoriteProducts(User $user) {
+
+        $products = $user->favoriteProducts;
+
+        return view('user.products')->with('user', $user)->with('products', $products);
+
+    }
+
 }
