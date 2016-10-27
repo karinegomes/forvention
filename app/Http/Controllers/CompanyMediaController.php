@@ -52,7 +52,7 @@ class CompanyMediaController extends Controller {
             return back()->withInput($request->except('_token'))->with('error', $error);
         }
 
-        $message = 'The file is successfully uploaded.';
+        $message = 'The file was successfully uploaded.';
 
         return redirect('companies/' . $company->id . '/medias')->with('message', $message);
 

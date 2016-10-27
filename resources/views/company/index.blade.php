@@ -53,6 +53,7 @@
                                 <tr>
                                     <th>Name</th>
                                     <th>Media</th>
+                                    <th>Products</th>
                                     <th>Users</th>
                                     <th>Events</th>
                                     @if(Auth::user()->hasPermission('MANAGE_COMPANIES'))
@@ -71,32 +72,42 @@
 
                                     {{--Media--}}
                                     <td class="text-center">
-                                        <a href="{{ url('companies/' . $company->id . '/medias') }}" class="btn btn-info btn-xs"><i class="fa fa-folder"></i> View Medias</a>
+                                        <a href="{{ url('companies/' . $company->id . '/medias') }}" class="btn btn-info btn-xs"><i class="fa fa-folder"></i> View</a>
                                         @if(Auth::user()->hasPermission('MANAGE_COMPANY_INFO', null, $company->id))
                                             <a href="{{ url('companies/' . $company->id . '/medias/create') }}" class="btn btn-primary btn-xs">
-                                                <i class="fa fa-plus"></i> Add Media
+                                                <i class="fa fa-plus"></i> Add
+                                            </a>
+                                        @endif
+                                    </td>
+
+                                    {{--Products--}}
+                                    <td class="text-center">
+                                        <a href="{{ url('companies/' . $company->id . '/products') }}" class="btn btn-info btn-xs"><i class="fa fa-folder"></i> View</a>
+                                        @if(Auth::user()->hasPermission('MANAGE_COMPANY_INFO', null, $company->id))
+                                            <a href="{{ url('companies/' . $company->id . '/products/create') }}" class="btn btn-primary btn-xs">
+                                                <i class="fa fa-plus"></i> Add
                                             </a>
                                         @endif
                                     </td>
 
                                     {{--Users--}}
                                     <td class="text-center">
-                                        <a href="{{ url('companies/' . $company->id . '/users') }}" class="btn btn-info btn-xs"><i class="fa fa-folder"></i> View Users</a>
+                                        <a href="{{ url('companies/' . $company->id . '/users') }}" class="btn btn-info btn-xs"><i class="fa fa-folder"></i> View</a>
                                         @if(Auth::user()->hasPermission('MANAGE_COMPANY_INFO', null, $company->id))
-                                            <a href="{{ url('companies/' . $company->id . '/add-user') }}" class="btn btn-primary btn-xs"><i class="fa fa-plus"></i> Add User</a>
+                                            <a href="{{ url('companies/' . $company->id . '/add-user') }}" class="btn btn-primary btn-xs"><i class="fa fa-plus"></i> Add</a>
                                         @endif
                                     </td>
 
                                     {{--Events--}}
                                     <td class="text-center">
-                                        <a href="{{ url('companies/' . $company->id . '/events') }}" class="btn btn-info btn-xs"><i class="fa fa-folder"></i> View Events</a>
+                                        <a href="{{ url('companies/' . $company->id . '/events') }}" class="btn btn-info btn-xs"><i class="fa fa-folder"></i> View</a>
                                     </td>
 
                                     {{--Admin--}}
                                     @if(Auth::user()->hasPermission('MANAGE_COMPANIES'))
                                         <td class="text-center">
-                                            <a href="{{ url('companies/' . $company->id . '/admins') }}" class="btn btn-info btn-xs"><i class="fa fa-folder"></i> View Admins</a>
-                                            <a href="{{ url('companies/' . $company->id . '/add-admin') }}" class="btn btn-primary btn-xs"><i class="fa fa-plus"></i> Add Admin</a>
+                                            <a href="{{ url('companies/' . $company->id . '/admins') }}" class="btn btn-info btn-xs"><i class="fa fa-folder"></i> View</a>
+                                            <a href="{{ url('companies/' . $company->id . '/add-admin') }}" class="btn btn-primary btn-xs"><i class="fa fa-plus"></i> Add</a>
                                         </td>
                                     @endif
 

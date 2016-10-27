@@ -33,6 +33,9 @@ $this->group(['middleware' => ['auth']], function() {
     // Company Medias
     $this->resource('companies/{company}/medias', 'CompanyMediaController');
 
+    // Company Products
+    $this->resource('companies/{company}/products', 'ProductController');
+
     // Events
     $this->resource('events', 'EventController');
     $this->get('events/{event}/add-user', 'EventController@addUserView');

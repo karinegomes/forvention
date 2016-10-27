@@ -13,11 +13,12 @@
     <link href="{{ asset('vendors/bootstrap/bootstrap.min.css') }}" rel="stylesheet">
     <!-- Font Awesome -->
     <link href="{{ asset('vendors/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
+
+    @stack('css')
+
     <!-- Custom Theme Style -->
     <link href="{{ asset('build/css/custom.css') }}" rel="stylesheet">
     <link href="{{ asset('css/styles.css') }}" rel="stylesheet">
-
-    @stack('css')
 
     <script>
         var BASE_URL = '{{ url('/') }}';

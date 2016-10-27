@@ -5,6 +5,8 @@ namespace App\Providers;
 use App\Company;
 use App\CompanyMedia;
 use App\Event;
+use App\Product;
+use App\Tag;
 use App\User;
 use Illuminate\Support\ServiceProvider;
 
@@ -38,6 +40,14 @@ class AppServiceProvider extends ServiceProvider
             $user->favoriteCompaniesDelete();
             $user->favoriteFilesDelete();
             $user->favoriteProductsDelete();
+        });
+
+        Tag::deleting(function(Tag $tag) {
+            $tag->productTagDelete();
+        });
+
+        Product::deleting(function(Product $product) {
+            $product->tagsDelete();
         });
     }
 
