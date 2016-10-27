@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class Event extends Model {
@@ -41,6 +42,21 @@ class Event extends Model {
 
     public function eventUserDelete() {
         DB::table('event_user')->where('event_id', $this->id)->delete();
+    }
+
+    public static function countEvents() {
+
+        if(Auth::user()->mainRole && in_array(Auth::user()->mainRole->constant_name, ['SUPER_ADMIN', 'EVENT_CREATOR'])) {
+            $events = Event::all();
+        }
+        else {
+            $events = array();
+
+            if(Auth::user()->events)
+                $events = Auth::user()->events->unique('id')->values()->all();
+        }
+
+        return count($events);
     }
 
 }

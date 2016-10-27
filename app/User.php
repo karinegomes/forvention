@@ -352,4 +352,8 @@ class User extends Authenticatable
         $this->notify(new ResetPassword($token));
     }
 
+    public static function countUsers() {
+        return count(User::all());
+    }
+
 }

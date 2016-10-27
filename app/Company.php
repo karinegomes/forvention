@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class Company extends Model {
@@ -39,6 +40,21 @@ class Company extends Model {
 
     public function favoriteCompaniesDelete() {
         DB::table('favorite_companies')->where('company_id', $this->id)->delete();
+    }
+
+    public static function countCompanies() {
+
+        $companies = [];
+
+        if(Auth::user()->mainRole && Auth::user()->mainRole->constant_name == 'SUPER_ADMIN') {
+            $companies = Company::all();
+        }
+        else if(Auth::user()->companies){
+            $companies = Auth::user()->companies->unique('id')->values()->all();
+        }
+
+        return count($companies);
+
     }
 
 }
